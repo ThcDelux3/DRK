@@ -6,7 +6,6 @@
             </h2>
         </template>
 
-
         <form @submit.prevent="submit">
 
             <v-sheet rounded>
@@ -348,7 +347,8 @@
                                     class="shrink mr-2 mt-0"
                                     hide-details
                                 ></v-checkbox>
-                                <v-text-field v-model="form.einsatz_einsatz_anforderung_textfield_sontiges"></v-text-field>
+                                <v-text-field
+                                    v-model="form.einsatz_einsatz_anforderung_textfield_sontiges"></v-text-field>
                             </v-row>
                         </v-container>
                     </v-sheet>
@@ -451,7 +451,6 @@
             </v-sheet>
 
             <br>
-
 
             <v-sheet rounded>
                 <v-container>
@@ -743,713 +742,1542 @@
 
 
                     <v-sheet outlined rounded>
-
                         <v-container>
+                            <v-sheet outlined rounded>
+                                <v-container>
 
-                            <v-row align="center">
+                                    <div class="overline mb-4">
+                                        Führung
+                                    </div>
 
-                                <v-icon>1</v-icon>
-
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                    <!--1-->
+                                    <v-row align="center" class="justify-space-around">
 
 
-                                <v-col>
-                                    <v-checkbox
-                                        label="BL"
-                                    >
-                                    </v-checkbox>
-                                </v-col>
+                                        <v-icon>1</v-icon>
 
-                                <v-col>
-                                    <v-checkbox
-                                        label="ZF / Artzt"
-                                    >
-                                    </v-checkbox>
-                                </v-col>
-
-                                <v-col>
-                                    <v-checkbox
-                                        label="GF"
-                                    >
-                                    </v-checkbox>
-                                </v-col>
-
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-
-                                <v-col>
-                                    <v-menu
-                                        ref="helfer_von_1_menu_menu"
-                                        v-model="helfer_von_1_menu"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        :return-value.sync="form.helfer_von_1_time"
-                                        max-width="290px"
-                                        min-width="290px"
-                                        offset-y
-                                        transition="scale-transition"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-col
+                                            sm="3"
+                                        >
                                             <v-text-field
-                                                v-model="form.helfer_von_1_time"
-                                                v-bind="attrs"
-                                                v-on="on"
-                                                label="Von"
-                                                prepend-inner-icon="mdi-clock-time-four-outline"
-                                                readonly
-                                            ></v-text-field>
-                                        </template>
-                                        <v-time-picker
-                                            v-if="helfer_von_1_menu"
-                                            v-model="form.helfer_von_1_time"
-                                            format="24hr"
-                                            full-width
-                                            @click:minute="$refs.helfer_von_1_menu_menu.save(form.helfer_von_1_time)"
-                                        ></v-time-picker>
-                                    </v-menu>
-                                </v-col>
+                                                v-model="form.helfer_1_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-menu
-                                        ref="helfer_bis_1_menu_menu"
-                                        v-model="helfer_bis_1_menu"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        :return-value.sync="form.helfer_bis_1_time"
-                                        max-width="290px"
-                                        min-width="290px"
-                                        offset-y
-                                        transition="scale-transition"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
+
+                                        <v-col
+                                            sm="1"
+                                        >
+                                            <v-checkbox
+                                                v-model="form.helfer_1_checkbox_bl"
+                                                label="BL"
+                                            >
+                                            </v-checkbox>
+                                        </v-col>
+
+                                        <v-col
+                                            sm="1"
+
+                                        >
+                                            <v-checkbox
+                                                v-model="form.helfer_1_checkbox_zf_artzt"
+                                                label="ZF / Artzt"
+                                            >
+                                            </v-checkbox>
+                                        </v-col>
+
+                                        <v-col
+                                            sm="1"
+
+                                        >
+                                            <v-checkbox
+                                                v-model="form.helfer_1_checkbox_gf"
+                                                label="GF"
+                                            >
+                                            </v-checkbox>
+                                        </v-col>
+
+                                        <v-col
+                                            sm="1"
+                                        >
+
+                                            <v-select
+                                                v-model="form.helfer_1_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+
+                                        </v-col>
+
+                                        <v-col
+                                            sm="1"
+                                        >
+                                            <v-menu
+                                                ref="helfer_1_von_menu_menu"
+                                                v-model="helfer_1_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_1_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_1_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_1_von_menu"
+                                                    v-model="form.helfer_1_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_1_von_menu_menu.save(form.helfer_1_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col
+                                            sm="1"
+                                        >
+                                            <v-menu
+                                                ref="helfer_1_bis_menu_menu"
+                                                v-model="helfer_1_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_1_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_1_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_1_bis_menu"
+                                                    v-model="form.helfer_1_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_1_bis_menu_menu.save(form.helfer_1_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+
+                                        </v-col>
+
+                                        <v-col
+                                            sm="2"
+                                        >
+                                            <v-select
+                                                v-model="form.helfer_1_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
+                                    </v-row>
+
+                                    <!--2-->
+                                    <v-row align="center" class="justify-space-around">
+
+                                        <v-icon>2</v-icon>
+
+                                        <v-col
+                                            sm="3"
+                                        >
                                             <v-text-field
-                                                v-model="form.helfer_bis_1_time"
-                                                v-bind="attrs"
-                                                v-on="on"
-                                                label="Bis"
-                                                prepend-inner-icon="mdi-clock-time-four-outline"
-                                                readonly
-                                            ></v-text-field>
-                                        </template>
-                                        <v-time-picker
-                                            v-if="helfer_bis_1_menu"
-                                            v-model="form.helfer_bis_1_time"
-                                            format="24hr"
-                                            full-width
-                                            @click:minute="$refs.helfer_bis_1_menu_menu.save(form.helfer_bis_1_time)"
-                                        ></v-time-picker>
-                                    </v-menu>
-
-                                </v-col>
-
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
-
-                                <v-icon>2</v-icon>
-
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                                v-model="form.helfer_2_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
 
-                                <v-col>
-                                    <v-checkbox
-                                        label="BL"
-                                    >
-                                    </v-checkbox>
-                                </v-col>
+                                        <v-col
+                                            sm="1"
+                                        >
+                                            <v-checkbox
+                                                v-model="form.helfer_2_checkbox_bl"
+                                                label="BL"
+                                            >
+                                            </v-checkbox>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-checkbox
-                                        label="ZF / Artzt"
-                                    >
-                                    </v-checkbox>
-                                </v-col>
+                                        <v-col
+                                            sm="1"
 
-                                <v-col>
-                                    <v-checkbox
-                                        label="GF"
-                                    >
-                                    </v-checkbox>
-                                </v-col>
+                                        >
+                                            <v-checkbox
+                                                v-model="form.helfer_2_checkbox_zf_artzt"
+                                                label="ZF / Artzt"
+                                            >
+                                            </v-checkbox>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col
+                                            sm="1"
 
-                                <v-col>
-                                    <v-menu
-                                        ref="helfer_von_2_menu_menu"
-                                        v-model="helfer_von_2_menu"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        :return-value.sync="form.helfer_von_2_time"
-                                        max-width="290px"
-                                        min-width="290px"
-                                        offset-y
-                                        transition="scale-transition"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
+                                        >
+                                            <v-checkbox
+                                                v-model="form.helfer_2_checkbox_gf"
+                                                label="GF"
+                                            >
+                                            </v-checkbox>
+                                        </v-col>
+
+                                        <v-col
+                                            sm="1"
+                                        >
+
+                                            <v-select
+                                                v-model="form.helfer_2_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+
+                                        </v-col>
+
+                                        <v-col
+                                            sm="1"
+                                        >
+                                            <v-menu
+                                                ref="helfer_2_von_menu_menu"
+                                                v-model="helfer_2_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_2_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_2_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_2_von_menu"
+                                                    v-model="form.helfer_2_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_2_von_menu_menu.save(form.helfer_2_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col
+                                            sm="1"
+                                        >
+                                            <v-menu
+                                                ref="helfer_2_bis_menu_menu"
+                                                v-model="helfer_2_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_2_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_2_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_2_bis_menu"
+                                                    v-model="form.helfer_2_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_2_bis_menu_menu.save(form.helfer_2_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+
+                                        </v-col>
+
+                                        <v-col
+                                            sm="2"
+                                        >
+                                            <v-select
+                                                v-model="form.helfer_2_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+
+                            </v-sheet>
+
+                            <br>
+
+                            <v-sheet outlined rounded>
+                                <v-container>
+
+                                    <div class="overline mb-4">
+                                        Helfer
+                                    </div>
+
+                                    <!--3-->
+                                    <v-row align="center">
+
+
+                                        <v-icon>3</v-icon>
+
+
+                                        <v-col>
                                             <v-text-field
-                                                v-model="form.helfer_von_2_time"
-                                                v-bind="attrs"
-                                                v-on="on"
-                                                label="Von"
-                                                prepend-inner-icon="mdi-clock-time-four-outline"
-                                                readonly
-                                            ></v-text-field>
-                                        </template>
-                                        <v-time-picker
-                                            v-if="helfer_von_2_menu"
-                                            v-model="form.helfer_von_2_time"
-                                            format="24hr"
-                                            full-width
-                                            @click:minute="$refs.helfer_von_2_menu_menu.save(form.helfer_von_2_time)"
-                                        ></v-time-picker>
-                                    </v-menu>
-                                </v-col>
+                                                v-model="form.helfer_3_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-menu
-                                        ref="helfer_bis_2_menu_menu"
-                                        v-model="helfer_bis_2_menu"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        :return-value.sync="form.helfer_bis_2_time"
-                                        max-width="290px"
-                                        min-width="290px"
-                                        offset-y
-                                        transition="scale-transition"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_3_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_3_von_menu_menu"
+                                                v-model="helfer_3_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_3_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_3_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_3_von_menu"
+                                                    v-model="form.helfer_3_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_3_von_menu_menu.save(form.helfer_3_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_3_bis_menu_menu"
+                                                v-model="helfer_3_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_3_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_3_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_3_bis_menu"
+                                                    v-model="form.helfer_3_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_3_bis_menu_menu.save(form.helfer_3_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_3_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
+
+                                    </v-row>
+                                    <!--4-->
+                                    <v-row align="center">
+
+
+                                        <v-icon>4</v-icon>
+
+
+                                        <v-col>
                                             <v-text-field
-                                                v-model="form.helfer_bis_2_time"
-                                                v-bind="attrs"
-                                                v-on="on"
-                                                label="Bis"
-                                                prepend-inner-icon="mdi-clock-time-four-outline"
-                                                readonly
-                                            ></v-text-field>
-                                        </template>
-                                        <v-time-picker
-                                            v-if="helfer_bis_2_menu"
-                                            v-model="form.helfer_bis_2_time"
-                                            format="24hr"
-                                            full-width
-                                            @click:minute="$refs.helfer_bis_2_menu_menu.save(form.helfer_bis_2_time)"
-                                        ></v-time-picker>
-                                    </v-menu>
+                                                v-model="form.helfer_4_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_4_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-icon>3</v-icon>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_4_von_menu_menu"
+                                                v-model="helfer_4_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_4_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_4_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_4_von_menu"
+                                                    v-model="form.helfer_4_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_4_von_menu_menu.save(form.helfer_4_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_4_bis_menu_menu"
+                                                v-model="helfer_4_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_4_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_4_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_4_bis_menu"
+                                                    v-model="form.helfer_4_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_4_bis_menu_menu.save(form.helfer_4_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-menu
-                                        ref="helfer_von_1_menu_menu"
-                                        v-model="helfer_von_1_menu"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        :return-value.sync="form.helfer_von_1_time"
-                                        max-width="290px"
-                                        min-width="290px"
-                                        offset-y
-                                        transition="scale-transition"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_4_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
+
+                                    </v-row>
+                                    <!--5-->
+                                    <v-row align="center">
+
+
+                                        <v-icon>5</v-icon>
+
+
+                                        <v-col>
                                             <v-text-field
-                                                v-model="form.helfer_von_1_time"
-                                                v-bind="attrs"
-                                                v-on="on"
-                                                label="Von"
-                                                prepend-inner-icon="mdi-clock-time-four-outline"
-                                                readonly
-                                            ></v-text-field>
-                                        </template>
-                                        <v-time-picker
-                                            v-if="helfer_von_1_menu"
-                                            v-model="form.helfer_von_1_time"
-                                            format="24hr"
-                                            full-width
-                                            @click:minute="$refs.helfer_von_1_menu_menu.save(form.helfer_von_1_time)"
-                                        ></v-time-picker>
-                                    </v-menu>
-                                </v-col>
+                                                v-model="form.helfer_5_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-menu
-                                        ref="helfer_bis_1_menu_menu"
-                                        v-model="helfer_bis_1_menu"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        :return-value.sync="form.helfer_bis_1_time"
-                                        max-width="290px"
-                                        min-width="290px"
-                                        offset-y
-                                        transition="scale-transition"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_5_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_5_von_menu_menu"
+                                                v-model="helfer_5_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_5_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_5_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_5_von_menu"
+                                                    v-model="form.helfer_5_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_5_von_menu_menu.save(form.helfer_5_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_5_bis_menu_menu"
+                                                v-model="helfer_5_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_5_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_5_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_5_bis_menu"
+                                                    v-model="form.helfer_5_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_5_bis_menu_menu.save(form.helfer_5_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_5_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
+
+                                    </v-row>
+                                    <!--6-->
+                                    <v-row align="center">
+
+
+                                        <v-icon>6</v-icon>
+
+
+                                        <v-col>
                                             <v-text-field
-                                                v-model="form.helfer_bis_1_time"
-                                                v-bind="attrs"
-                                                v-on="on"
-                                                label="Bis"
-                                                prepend-inner-icon="mdi-clock-time-four-outline"
-                                                readonly
-                                            ></v-text-field>
-                                        </template>
-                                        <v-time-picker
-                                            v-if="helfer_bis_1_menu"
-                                            v-model="form.helfer_bis_1_time"
-                                            format="24hr"
-                                            full-width
-                                            @click:minute="$refs.helfer_bis_1_menu_menu.save(form.helfer_bis_1_time)"
-                                        ></v-time-picker>
-                                    </v-menu>
+                                                v-model="form.helfer_6_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_6_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-icon>4</v-icon>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_6_von_menu_menu"
+                                                v-model="helfer_6_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_6_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_6_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_6_von_menu"
+                                                    v-model="form.helfer_6_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_6_von_menu_menu.save(form.helfer_6_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_6_bis_menu_menu"
+                                                v-model="helfer_6_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_6_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_6_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_6_bis_menu"
+                                                    v-model="form.helfer_6_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_6_bis_menu_menu.save(form.helfer_6_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_6_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                    </v-row>
+                                    <!--7-->
+                                    <v-row align="center">
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
 
-                                <v-icon>5</v-icon>
+                                        <v-icon>7</v-icon>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-text-field
+                                                v-model="form.helfer_7_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_7_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_7_von_menu_menu"
+                                                v-model="helfer_7_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_7_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_7_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_7_von_menu"
+                                                    v-model="form.helfer_7_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_7_von_menu_menu.save(form.helfer_7_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
 
-                                <v-icon>7</v-icon>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_7_bis_menu_menu"
+                                                v-model="helfer_7_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_7_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_7_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_7_bis_menu"
+                                                    v-model="form.helfer_7_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_7_bis_menu_menu.save(form.helfer_7_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_7_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                    </v-row>
+                                    <!--8-->
+                                    <v-row align="center">
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
+                                        <v-icon>8</v-icon>
 
-                                <v-icon>8</v-icon>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-text-field
+                                                v-model="form.helfer_8_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_8_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_8_von_menu_menu"
+                                                v-model="helfer_8_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_8_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_8_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_8_von_menu"
+                                                    v-model="form.helfer_8_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_8_von_menu_menu.save(form.helfer_8_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_8_bis_menu_menu"
+                                                v-model="helfer_8_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_8_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_8_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_8_bis_menu"
+                                                    v-model="form.helfer_8_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_8_bis_menu_menu.save(form.helfer_8_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
 
-                                <v-icon>9</v-icon>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_8_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                    </v-row>
+                                    <!--9-->
+                                    <v-row align="center">
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-icon>9</v-icon>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
 
-                                <v-icon>10</v-icon>
+                                        <v-col>
+                                            <v-text-field
+                                                v-model="form.helfer_9_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_9_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_9_von_menu_menu"
+                                                v-model="helfer_9_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_9_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_9_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_9_von_menu"
+                                                    v-model="form.helfer_9_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_9_von_menu_menu.save(form.helfer_9_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_9_bis_menu_menu"
+                                                v-model="helfer_9_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_9_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_9_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_9_bis_menu"
+                                                    v-model="form.helfer_9_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_9_bis_menu_menu.save(form.helfer_9_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
+                                        </v-col>
 
-                                <v-icon>11</v-icon>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_9_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                    </v-row>
+                                    <!--10-->
+                                    <v-row align="center">
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-icon>10</v-icon>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
+                                        <v-col>
+                                            <v-text-field
+                                                v-model="form.helfer_10_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                <v-icon>12</v-icon>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_10_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_10_von_menu_menu"
+                                                v-model="helfer_10_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_10_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_10_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_10_von_menu"
+                                                    v-model="form.helfer_10_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_10_von_menu_menu.save(form.helfer_10_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_10_bis_menu_menu"
+                                                v-model="helfer_10_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_10_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_10_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_10_bis_menu"
+                                                    v-model="form.helfer_10_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_10_bis_menu_menu.save(form.helfer_10_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_10_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-icon>13</v-icon>
+                                    </v-row>
+                                    <!--11-->
+                                    <v-row align="center">
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-icon>11</v-icon>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-text-field
+                                                v-model="form.helfer_11_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row align="center">
 
-                                <v-icon>14</v-icon>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_11_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Name, Vorname"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_11_von_menu_menu"
+                                                v-model="helfer_11_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_11_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_11_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_11_von_menu"
+                                                    v-model="form.helfer_11_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_11_von_menu_menu.save(form.helfer_11_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="OV-KZ"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_11_bis_menu_menu"
+                                                v-model="helfer_11_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_11_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_11_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_11_bis_menu"
+                                                    v-model="form.helfer_11_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_11_bis_menu_menu.save(form.helfer_11_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Von"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Bis"
-                                    >
-                                    </v-text-field>
-                                </v-col>
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_11_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
 
-                                <v-col>
-                                    <v-text-field
-                                        label="Qualifikation"
-                                    >
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
+                                    </v-row>
+                                    <!--12-->
+                                    <v-row align="center">
+
+
+                                        <v-icon>12</v-icon>
+
+
+                                        <v-col>
+                                            <v-text-field
+                                                v-model="form.helfer_12_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
+
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_12_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_12_von_menu_menu"
+                                                v-model="helfer_12_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_12_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_12_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_12_von_menu"
+                                                    v-model="form.helfer_12_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_12_von_menu_menu.save(form.helfer_12_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_12_bis_menu_menu"
+                                                v-model="helfer_12_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_12_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_12_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_12_bis_menu"
+                                                    v-model="form.helfer_12_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_12_bis_menu_menu.save(form.helfer_12_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_12_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
+
+                                    </v-row>
+                                    <!--13-->
+                                    <v-row align="center">
+
+
+                                        <v-icon>13</v-icon>
+
+
+                                        <v-col>
+                                            <v-text-field
+                                                v-model="form.helfer_13_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
+
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_13_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_13_von_menu_menu"
+                                                v-model="helfer_13_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_13_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_13_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_13_von_menu"
+                                                    v-model="form.helfer_13_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_13_von_menu_menu.save(form.helfer_13_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_13_bis_menu_menu"
+                                                v-model="helfer_13_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_13_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_13_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_13_bis_menu"
+                                                    v-model="form.helfer_13_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_13_bis_menu_menu.save(form.helfer_13_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_13_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
+
+                                    </v-row>
+                                    <!--14-->
+                                    <v-row align="center">
+
+                                        <v-icon>14</v-icon>
+
+
+                                        <v-col>
+                                            <v-text-field
+                                                v-model="form.helfer_14_name_vorname"
+                                                label="Name, Vorname"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
+
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_14_dropdown_ov_kz"
+                                                :items="items_helfer_checkbox_ov_kz"
+                                                dense
+                                                hide-details
+                                                label="OV-KZ"
+                                            ></v-select>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_14_von_menu_menu"
+                                                v-model="helfer_14_von_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_14_von_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_14_von_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Von"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_14_von_menu"
+                                                    v-model="form.helfer_14_von_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_14_von_menu_menu.save(form.helfer_14_von_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-menu
+                                                ref="helfer_14_bis_menu_menu"
+                                                v-model="helfer_14_bis_menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="form.helfer_14_bis_time"
+                                                max-width="290px"
+                                                min-width="290px"
+                                                offset-y
+                                                transition="scale-transition"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="form.helfer_14_bis_time"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        label="Bis"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="helfer_14_bis_menu"
+                                                    v-model="form.helfer_14_bis_time"
+                                                    format="24hr"
+                                                    full-width
+                                                    @click:minute="$refs.helfer_14_bis_menu_menu.save(form.helfer_14_bis_time)"
+                                                ></v-time-picker>
+                                            </v-menu>
+
+                                        </v-col>
+
+                                        <v-col>
+                                            <v-select
+                                                v-model="form.helfer_14_checkbox_qualifikation"
+                                                :items="items_helfer_checkbox_qualifikation"
+                                                dense
+                                                hide-details
+                                                label="Qualifikation"
+                                            ></v-select>
+                                        </v-col>
+
+                                    </v-row>
+
+                                </v-container>
+                            </v-sheet>
+
 
                         </v-container>
 
@@ -1486,18 +2314,18 @@
 
                                 <v-col>
                                     <v-checkbox
+                                        v-model="form.einsatznachbesprechung_checkbox_offen"
                                         class="shrink mr-2 mt-0"
                                         hide-details
                                         label="offen"
-                                        v-model="form.einsatznachbesprechung_checkbox_offen"
                                     ></v-checkbox>
                                 </v-col>
 
                                 <v-checkbox
+                                    v-model="form.einsatznachbesprechung_checkbox_geplant_am"
                                     class="shrink mr-2 mt-0"
                                     hide-details
                                     label="geplant am:"
-                                    v-model="form.einsatznachbesprechung_checkbox_geplant_am"
                                 ></v-checkbox>
                                 <v-text-field v-model="form.einsatznachbesprechung_textfield_geplant_am"></v-text-field>
                             </v-row>
@@ -1566,16 +2394,12 @@
             <br>
 
             <v-btn
-                :disabled="loading"
-                :loading="loading"
                 type="submit"
             >
                 PDF Erstellen
             </v-btn>
 
-
         </form>
-
 
     </app-layout>
 </template>
@@ -1586,8 +2410,6 @@ import AppLayout from '@/Layouts/AppLayout'
 export default {
     data() {
         return {
-            loading: false,
-            loader: null,
 
             einsatz_datum_menu: false,
             einsatz_beginn_menu: false,
@@ -1596,13 +2418,41 @@ export default {
             einsatz_fw_swd_menu: false,
             einsatz_eintreffzeit_menu: false,
 
-            helfer_von_1_menu: false,
-            helfer_bis_1_menu: false,
-            helfer_von_2_menu: false,
-            helfer_bis_2_menu: false,
+            items_helfer_checkbox_ov_kz: ['OV-VL', 'OV-SW', 'fizz', 'buzz'],
+            items_helfer_checkbox_qualifikation: ['Rettungs Helfer (RH)', 'RS', 'SanC', 'buzz'],
+
+
+            helfer_1_von_menu: false,
+            helfer_1_bis_menu: false,
+            helfer_2_von_menu: false,
+            helfer_2_bis_menu: false,
+            helfer_3_von_menu: false,
+            helfer_3_bis_menu: false,
+            helfer_4_von_menu: false,
+            helfer_4_bis_menu: false,
+            helfer_5_von_menu: false,
+            helfer_5_bis_menu: false,
+            helfer_6_von_menu: false,
+            helfer_6_bis_menu: false,
+            helfer_7_von_menu: false,
+            helfer_7_bis_menu: false,
+            helfer_8_von_menu: false,
+            helfer_8_bis_menu: false,
+            helfer_9_von_menu: false,
+            helfer_9_bis_menu: false,
+            helfer_10_von_menu: false,
+            helfer_10_bis_menu: false,
+            helfer_11_von_menu: false,
+            helfer_11_bis_menu: false,
+            helfer_12_von_menu: false,
+            helfer_12_bis_menu: false,
+            helfer_13_von_menu: false,
+            helfer_13_bis_menu: false,
+            helfer_14_von_menu: false,
+            helfer_14_bis_menu: false,
 
             form: {
-                einsatz_datum: new Date().toISOString().substr(0, 10),
+                einsatz_datum: null,
                 einsatz_beginn_time: null,
                 einsatz_ende_time: null,
                 einsatz_alarmzeit_time: null,
@@ -1665,10 +2515,95 @@ export default {
                 rechtliches_textfield_datum: '',
                 rechtliches_textfield_unterschrift: '',
 
-                helfer_von_1_time: null,
-                helfer_bis_1_time: null,
-                helfer_von_2_time: null,
-                helfer_bis_2_time: null,
+                helfer_1_name_vorname: '',
+                helfer_1_checkbox_bl: false,
+                helfer_1_checkbox_zf_artzt: false,
+                helfer_1_checkbox_gf: false,
+                helfer_1_dropdown_ov_kz: '',
+                helfer_1_von_time: null,
+                helfer_1_bis_time: null,
+                helfer_1_checkbox_qualifikation: '',
+
+                helfer_2_name_vorname: '',
+                helfer_2_checkbox_bl: false,
+                helfer_2_checkbox_zf_artzt: false,
+                helfer_2_checkbox_gf: false,
+                helfer_2_dropdown_ov_kz: '',
+                helfer_2_von_time: null,
+                helfer_2_bis_time: null,
+                helfer_2_checkbox_qualifikation: '',
+
+                helfer_3_name_vorname: '',
+                helfer_3_von_time: null,
+                helfer_3_bis_time: null,
+                helfer_3_dropdown_ov_kz: '',
+                helfer_3_checkbox_qualifikation: '',
+
+                helfer_4_name_vorname: '',
+                helfer_4_von_time: null,
+                helfer_4_bis_time: null,
+                helfer_4_dropdown_ov_kz: '',
+                helfer_4_checkbox_qualifikation: '',
+
+                helfer_5_name_vorname: '',
+                helfer_5_von_time: null,
+                helfer_5_bis_time: null,
+                helfer_5_dropdown_ov_kz: '',
+                helfer_5_checkbox_qualifikation: '',
+
+                helfer_6_name_vorname: '',
+                helfer_6_von_time: null,
+                helfer_6_bis_time: null,
+                helfer_6_dropdown_ov_kz: '',
+                helfer_6_checkbox_qualifikation: '',
+
+                helfer_7_name_vorname: '',
+                helfer_7_von_time: null,
+                helfer_7_bis_time: null,
+                helfer_7_dropdown_ov_kz: '',
+                helfer_7_checkbox_qualifikation: '',
+
+                helfer_8_name_vorname: '',
+                helfer_8_von_time: null,
+                helfer_8_bis_time: null,
+                helfer_8_dropdown_ov_kz: '',
+                helfer_8_checkbox_qualifikation: '',
+
+                helfer_9_name_vorname: '',
+                helfer_9_von_time: null,
+                helfer_9_bis_time: null,
+                helfer_9_dropdown_ov_kz: '',
+                helfer_9_checkbox_qualifikation: '',
+
+                helfer_10_name_vorname: '',
+                helfer_10_von_time: null,
+                helfer_10_bis_time: null,
+                helfer_10_dropdownx_ov_kz: '',
+                helfer_10_checkbox_qualifikation: '',
+
+                helfer_11_name_vorname: '',
+                helfer_11_von_time: null,
+                helfer_11_bis_time: null,
+                helfer_11_dropdown_ov_kz: '',
+                helfer_11_checkbox_qualifikation: '',
+
+                helfer_12_name_vorname: '',
+                helfer_12_von_time: null,
+                helfer_12_bis_time: null,
+                helfer_12_dropdown_ov_kz: '',
+                helfer_12_checkbox_qualifikation: '',
+
+                helfer_13_name_vorname: '',
+                helfer_13_von_time: null,
+                helfer_13_bis_time: null,
+                helfer_13_dropdown_ov_kz: '',
+                helfer_13_checkbox_qualifikation: '',
+
+                helfer_14_name_vorname: '',
+                helfer_14_von_time: null,
+                helfer_14_bis_time: null,
+                helfer_14_dropdown_ov_kz: '',
+                helfer_14_checkbox_qualifikation: '',
 
             },
 
@@ -1681,42 +2616,15 @@ export default {
 
     methods: {
         submit() {
-
             this.$inertia.post(this.route('protokolle.store'), this.form, {
-                onStart: () => this.loading = true,
-                onFinish: () => this.loading = false,
+                onFinish: () => this.openPDF(),
             })
-
-            axios({
-                url: 'http://127.0.0.1:8080/protokolle/pdf',
-                method: 'GET',
-                responseType: 'blob',
-            }).then((response) => {
-                //Create a Blob from the PDF Stream
-                const file = new Blob(
-                    [response.data],
-                    {type: 'application/pdf'});
-                //Build a URL from the file
-                const fileURL = URL.createObjectURL(file);
-                //Open the URL on new Window
-                window.open(fileURL);
-            })
-                .catch(error => {
-                    console.log(error);
-                });
-
         },
-    },
 
-    watch: {
-        loader() {
-            const l = this.loader
-            this[l] = !this[l]
+        openPDF() {
+            window.open("/test.pdf", "_blank");
+        }
 
-            setTimeout(() => (this[l] = false), 3000)
-
-            this.loader = null
-        },
     },
 
 }
