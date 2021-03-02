@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSanlagersTable extends Migration
+class CreateFahrzeugesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateSanlagersTable extends Migration
      */
     public function up()
     {
-        Schema::create('sanlagers', function (Blueprint $table) {
+        Schema::create('fahrzeuges', function (Blueprint $table) {
             $table->id();
-            $table->string('Name');
-            $table->string('Ablaufdatum');
-            $table->string('Anzahl');
-            $table->string('Schrank');
-            $table->string('img');
+            $table->string('Funkrufname');
+            $table->string('Kennzeichen');
+            $table->string('Fahrzeugart');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateSanlagersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sanlagers');
+        Schema::dropIfExists('fahrzeuges');
     }
 }

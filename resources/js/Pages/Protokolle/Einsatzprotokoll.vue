@@ -6,6 +6,8 @@
             </h2>
         </template>
 
+        <br>
+
         <form @submit.prevent="submit">
 
             <v-sheet rounded>
@@ -39,6 +41,8 @@
                                                 label="Datum"
                                                 prepend-inner-icon="mdi-calendar"
                                                 readonly
+                                                type="date"
+                                                required
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker
@@ -73,6 +77,8 @@
                                                 label="Beginn"
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
+                                                type="time"
+                                                required
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -110,6 +116,8 @@
                                                 label="Ende"
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
+                                                type="time"
+                                                required
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -133,6 +141,7 @@
                                         label="Einsatz Nr."
                                         min="0"
                                         type="number"
+                                        required
                                     ></v-text-field>
                                 </v-col>
 
@@ -161,6 +170,8 @@
                                                 label="Alarmzeit"
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
+                                                type="time"
+                                                required
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -198,6 +209,8 @@
                                                 label="Abfahrzeit (S3)"
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
+                                                type="time"
+                                                required
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -235,6 +248,8 @@
                                                 label="Eintreffzeit (S4) "
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
+                                                type="time"
+                                                required
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -253,10 +268,39 @@
                                     md="3"
                                     sm="6"
                                 >
-                                    <v-text-field
-                                        v-model="form.einsatz_frei_einsatzstelle"
-                                        label="Frei Einsatzstelle (S9)"
-                                    ></v-text-field>
+
+
+                                    <v-menu
+                                        ref="einsatz_frei_einsatzstelle_menu_menu"
+                                        v-model="einsatz_frei_einsatzstelle_menu"
+                                        :close-on-content-click="false"
+                                        :nudge-right="40"
+                                        :return-value.sync="form.einsatz_frei_einsatzstelle_time"
+                                        max-width="290px"
+                                        min-width="290px"
+                                        offset-y
+                                        transition="scale-transition"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field
+                                                v-model="form.einsatz_frei_einsatzstelle_time"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                                label="Frei Einsatzstelle (S9)"
+                                                prepend-inner-icon="mdi-clock-time-four-outline"
+                                                readonly
+                                                type="time"
+                                                required
+                                            ></v-text-field>
+                                        </template>
+                                        <v-time-picker
+                                            v-if="einsatz_frei_einsatzstelle_menu"
+                                            v-model="form.einsatz_frei_einsatzstelle_time"
+                                            format="24hr"
+                                            full-width
+                                            @click:minute="$refs.einsatz_frei_einsatzstelle_menu_menu.save(form.einsatz_frei_einsatzstelle_time)"
+                                        ></v-time-picker>
+                                    </v-menu>
                                 </v-col>
 
                             </v-row>
@@ -328,6 +372,7 @@
                                             label=""
                                             prepend-inner-icon="mdi-clock-time-four-outline"
                                             readonly
+                                            type="time"
                                         ></v-text-field>
                                     </template>
                                     <v-time-picker
@@ -361,6 +406,7 @@
                                 v-model="form.einsatz_textfield_einsatzort"
                                 label="Einsatzort"
                                 prepend-inner-icon="mdi-map-marker"
+                                required
                             ></v-text-field>
                         </v-container>
                     </v-sheet>
@@ -442,7 +488,7 @@
                                 v-model="form.einsatz_textfield_einsatzauftrag"
                                 label="Einsatzauftrag"
                                 prepend-inner-icon="mdi-clipboard-text"
-
+                                required
                             ></v-text-field>
                         </v-container>
                     </v-sheet>
@@ -463,12 +509,14 @@
                                     <v-text-field
                                         v-model="form.einheit_textfield_org_lm_herkunft_bezeichnung"
                                         label="Org / LM / Herkunft / Bezeichnung"
+                                        required
                                     ></v-text-field>
                                 </v-col>
                                 <v-col>
                                     <v-text-field
                                         v-model="form.einheit_textfield_staerke_zf_artzt"
                                         label="ZF / Artzt"
+                                        type="number"
                                     ></v-text-field>
                                 </v-col>
 
@@ -476,6 +524,7 @@
                                     <v-text-field
                                         v-model="form.einheit_textfield_staerke_gf"
                                         label="GF"
+                                        type="number"
                                     ></v-text-field>
                                 </v-col>
 
@@ -483,6 +532,7 @@
                                     <v-text-field
                                         v-model="form.einheit_textfield_staerke_helfer"
                                         label="Helfer"
+                                        type="number"
                                     ></v-text-field>
                                 </v-col>
 
@@ -490,6 +540,8 @@
                                     <v-text-field
                                         v-model="form.einheit_textfield_staerke_gesamt"
                                         label="Gesamt"
+                                        type="number"
+                                        required
                                     ></v-text-field>
                                 </v-col>
 
@@ -512,54 +564,74 @@
                             <v-row>
                                 <v-icon>1</v-icon>
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_1_funkrufname"
+                                        :items="items_fahrzeuge_funkrufnamen"
+                                        dense
+                                        hide-details
                                         label="Funkrufnamen"
                                         prepend-inner-icon="mdi-radio-handheld"
-                                    ></v-text-field>
+                                    ></v-select>
+
                                 </v-col>
 
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_1_kennzeichen"
+                                        :items="items_fahrzeuge_kennzeichen"
+                                        dense
+                                        hide-details
                                         label="Amtl. Kennzeichen"
                                         prepend-inner-icon="mdi-card-text"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
 
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_1_fahrzeugart"
+                                        :items="items_fahrzeuge_fahrzeugart"
+                                        dense
+                                        hide-details
                                         label="Fahrzeugart"
                                         prepend-inner-icon="mdi-car-info"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
                             </v-row>
 
                             <v-row>
                                 <v-icon>2</v-icon>
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_2_funkrufname"
+                                        :items="items_fahrzeuge_funkrufnamen"
+                                        dense
+                                        hide-details
                                         label="Funkrufnamen"
                                         prepend-inner-icon="mdi-radio-handheld"
-                                    ></v-text-field>
+                                    ></v-select>
+
                                 </v-col>
 
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_2_kennzeichen"
+                                        :items="items_fahrzeuge_kennzeichen"
+                                        dense
+                                        hide-details
                                         label="Amtl. Kennzeichen"
                                         prepend-inner-icon="mdi-card-text"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
 
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_2_fahrzeugart"
+                                        :items="items_fahrzeuge_fahrzeugart"
+                                        dense
+                                        hide-details
                                         label="Fahrzeugart"
                                         prepend-inner-icon="mdi-car-info"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
                             </v-row>
 
@@ -567,27 +639,37 @@
                             <v-row>
                                 <v-icon>3</v-icon>
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_3_funkrufname"
+                                        :items="items_fahrzeuge_funkrufnamen"
+                                        dense
+                                        hide-details
                                         label="Funkrufnamen"
                                         prepend-inner-icon="mdi-radio-handheld"
-                                    ></v-text-field>
+                                    ></v-select>
+
                                 </v-col>
 
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_3_kennzeichen"
+                                        :items="items_fahrzeuge_kennzeichen"
+                                        dense
+                                        hide-details
                                         label="Amtl. Kennzeichen"
                                         prepend-inner-icon="mdi-card-text"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
 
                                 <v-col>
-                                    <v-text-field
+                                    <v-select
                                         v-model="form.fahrzeuge_textfield_3_fahrzeugart"
+                                        :items="items_fahrzeuge_fahrzeugart"
+                                        dense
+                                        hide-details
                                         label="Fahrzeugart"
                                         prepend-inner-icon="mdi-car-info"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
                             </v-row>
 
@@ -626,6 +708,7 @@
                                 v-model="form.kurzbericht_textfield"
                                 label="Kurzbericht"
                                 prepend-inner-icon="mdi-clipboard-text"
+                                required
                             ></v-textarea>
                         </v-container>
                     </v-sheet>
@@ -2312,22 +2395,41 @@
                                 ></v-checkbox>
                                 <v-text-field v-model="form.einsatznachbesprechung_textfield_nein_grund"></v-text-field>
 
-                                <v-col>
-                                    <v-checkbox
-                                        v-model="form.einsatznachbesprechung_checkbox_offen"
-                                        class="shrink mr-2 mt-0"
-                                        hide-details
-                                        label="offen"
-                                    ></v-checkbox>
-                                </v-col>
+                                <v-spacer></v-spacer>
 
                                 <v-checkbox
                                     v-model="form.einsatznachbesprechung_checkbox_geplant_am"
                                     class="shrink mr-2 mt-0"
                                     hide-details
-                                    label="geplant am:"
+                                    label="offen geplant am:"
                                 ></v-checkbox>
-                                <v-text-field v-model="form.einsatznachbesprechung_textfield_geplant_am"></v-text-field>
+
+                                <v-menu
+                                    v-model="einsatznachbesprechung_textfield_geplant_am_menu"
+                                    :close-on-content-click="false"
+                                    :nudge-right="40"
+                                    min-width="auto"
+                                    offset-y
+                                    transition="scale-transition"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="form.einsatznachbesprechung_textfield_geplant_am"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            label="Datum"
+                                            prepend-inner-icon="mdi-calendar"
+                                            readonly
+                                            type="date"
+                                            required
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker
+                                        v-model="form.einsatznachbesprechung_textfield_geplant_am"
+                                        @input="einsatznachbesprechung_textfield_geplant_am_menu = false"
+                                    ></v-date-picker>
+                                </v-menu>
+
                             </v-row>
                         </v-container>
                     </v-sheet>
@@ -2349,17 +2451,39 @@
                                         v-model="form.rechtliches_textfield_ort"
                                         label="Ort"
                                         prepend-inner-icon="mdi-map-marker"
+                                        required
                                     >
                                     </v-text-field>
                                 </v-col>
 
                                 <v-col>
-                                    <v-text-field
-                                        v-model="form.rechtliches_textfield_datum"
-                                        label="Datum"
-                                        prepend-inner-icon="mdi-calendar"
+
+                                    <v-menu
+                                        v-model="rechtliches_datum_menu"
+                                        :close-on-content-click="false"
+                                        :nudge-right="40"
+                                        min-width="auto"
+                                        offset-y
+                                        transition="scale-transition"
                                     >
-                                    </v-text-field>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field
+                                                v-model="form.rechtliches_datum"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                                label="Datum"
+                                                prepend-inner-icon="mdi-calendar"
+                                                readonly
+                                                type="date"
+                                                required
+                                            ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                            v-model="form.rechtliches_datum"
+                                            @input="rechtliches_datum_menu = false"
+                                        ></v-date-picker>
+                                    </v-menu>
+
                                 </v-col>
 
                                 <v-col>
@@ -2367,6 +2491,7 @@
                                         v-model="form.rechtliches_textfield_unterschrift"
                                         label="Unterschrift E-Leitung/GF"
                                         prepend-inner-icon="mdi-signature"
+                                        required
                                     >
                                     </v-text-field>
                                 </v-col>
@@ -2394,7 +2519,7 @@
             <br>
 
             <v-btn
-                type="submit"
+                type="submit" color="primary"
             >
                 PDF Erstellen
             </v-btn>
@@ -2413,13 +2538,21 @@ export default {
 
             einsatz_datum_menu: false,
             einsatz_beginn_menu: false,
+            einsatz_frei_einsatzstelle_menu: false,
             einsatz_abfahrzeit_menu: null,
             einsatz_alarmzeit_menu: false,
             einsatz_fw_swd_menu: false,
             einsatz_eintreffzeit_menu: false,
+            rechtliches_datum_menu: false,
+            einsatznachbesprechung_textfield_geplant_am_menu: false,
 
-            items_helfer_checkbox_ov_kz: ['OV-VL', 'OV-SW', 'fizz', 'buzz'],
-            items_helfer_checkbox_qualifikation: ['Rettungs Helfer (RH)', 'RS', 'SanC', 'buzz'],
+
+            items_fahrzeuge_funkrufnamen: ['51/19-1', '51/58-1', '51/58-2'],
+            items_fahrzeuge_kennzeichen: ['VS-RK-8507', 'VS-AJ-600', 'VS-RK-159', 'VS-RK-191', 'VS-RK-195', 'VS-RK-196', 'VS-RK-198', 'VS-RK-5000'],
+            items_fahrzeuge_fahrzeugart: ['OV GW', 'GW-TuS-Land-BW', 'MTW', 'Schulbus', 'Wohnwagen', 'Anhänger'],
+
+            items_helfer_checkbox_ov_kz: ['OV-VL (51)', 'OV-SE (52)', 'OV-BD (53)', 'OV-KÖ(57)', 'OV-STG (58)', 'OV-T/S (59)', 'OV-F (61)', 'OV-MW (62)', 'OV-NS (63)', 'OV-SCH (65)'],
+            items_helfer_checkbox_qualifikation: ['RH', 'RS', 'RA', 'NFS', 'Arzt', 'NA'],
 
 
             helfer_1_von_menu: false,
@@ -2451,9 +2584,10 @@ export default {
             helfer_14_von_menu: false,
             helfer_14_bis_menu: false,
 
-            form: {
+            form:  this.$inertia.form({
                 einsatz_datum: null,
                 einsatz_beginn_time: null,
+                einsatz_frei_einsatzstelle_time: null,
                 einsatz_ende_time: null,
                 einsatz_alarmzeit_time: null,
                 einsatz_abfahrzeit_time: null,
@@ -2508,12 +2642,8 @@ export default {
                 einsatznachbesprechung_checkbox_durchgefuehrt: '',
                 einsatznachbesprechung_checkbox_nein_grund: '',
                 einsatznachbesprechung_textfield_nein_grund: '',
-                einsatznachbesprechung_checkbox_offen: '',
                 einsatznachbesprechung_checkbox_geplant_am: '',
                 einsatznachbesprechung_textfield_geplant_am: '',
-                rechtliches_textfield_ort: '',
-                rechtliches_textfield_datum: '',
-                rechtliches_textfield_unterschrift: '',
 
                 helfer_1_name_vorname: '',
                 helfer_1_checkbox_bl: false,
@@ -2605,7 +2735,11 @@ export default {
                 helfer_14_dropdown_ov_kz: '',
                 helfer_14_checkbox_qualifikation: '',
 
-            },
+                rechtliches_textfield_ort: '',
+                rechtliches_datum: '',
+                rechtliches_textfield_unterschrift: '',
+
+            }),
 
         }
     },
@@ -2616,9 +2750,15 @@ export default {
 
     methods: {
         submit() {
-            this.$inertia.post(this.route('protokolle.store'), this.form, {
-                onFinish: () => this.openPDF(),
-            })
+
+            this.form
+                .transform(data => ({
+                    ... data,
+                }))
+                .post(this.route('protokolle.store'), {
+                    onFinish: () => this.openPDF(),
+                })
+
         },
 
         openPDF() {

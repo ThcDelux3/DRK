@@ -50,7 +50,7 @@ class ProtokolleController extends Controller
         $einsatz_abfahrzeit_time = $request->input('einsatz_abfahrzeit_time');
         $einsatz_eintreffzeit_time = $request->input('einsatz_eintreffzeit_time');
         $einsatz_nummer = $request->input('einsatz_nummer');
-        $einsatz_frei_einsatzstelle = $request->input('einsatz_frei_einsatzstelle');
+        $einsatz_frei_einsatzstelle_time = $request->input('einsatz_frei_einsatzstelle_time');
 
         $einsatz_checkbox_nach_aao = $request->input('einsatz_checkbox_nach_aao');
         $einsatz_checkbox_manv = $request->input('einsatz_checkbox_manv');
@@ -167,7 +167,7 @@ class ProtokolleController extends Controller
         $helfer_10_name_vorname = $request->input('helfer_10_name_vorname');
         $helfer_10_von_time = $request->input('helfer_10_von_time');
         $helfer_10_bis_time = $request->input('helfer_10_bis_time');
-        $helfer_10_dropdownx_ov_kz = $request->input('helfer_10_dropdownx_ov_kz');
+        $helfer_10_dropdown_ov_kz = $request->input('helfer_10_dropdown_ov_kz');
         $helfer_10_checkbox_qualifikation = $request->input('helfer_10_checkbox_qualifikation');
 
         $helfer_11_name_vorname = $request->input('helfer_11_name_vorname');
@@ -194,17 +194,14 @@ class ProtokolleController extends Controller
         $helfer_14_dropdown_ov_kz = $request->input('helfer_14_dropdown_ov_kz');
         $helfer_14_checkbox_qualifikation = $request->input('helfer_14_checkbox_qualifikation');
 
-
-
         $einsatznachbesprechung_checkbox_durchgefuehrt = $request->input('einsatznachbesprechung_checkbox_durchgefuehrt');
         $einsatznachbesprechung_checkbox_nein_grund = $request->input('einsatznachbesprechung_checkbox_nein_grund');
         $einsatznachbesprechung_textfield_nein_grund = $request->input('einsatznachbesprechung_textfield_nein_grund');
-        $einsatznachbesprechung_checkbox_offen = $request->input('einsatznachbesprechung_checkbox_offen');
         $einsatznachbesprechung_checkbox_geplant_am = $request->input('einsatznachbesprechung_checkbox_geplant_am');
         $einsatznachbesprechung_textfield_geplant_am = $request->input('einsatznachbesprechung_textfield_geplant_am');
 
         $rechtliches_textfield_ort = $request->input('rechtliches_textfield_ort');
-        $rechtliches_textfield_datum = $request->input('rechtliches_textfield_datum');
+        $rechtliches_datum = $request->input('rechtliches_datum');
         $rechtliches_textfield_unterschrift = $request->input('rechtliches_textfield_unterschrift');
 
         //Load PDF from preset folder
@@ -228,7 +225,10 @@ class ProtokolleController extends Controller
 
                     //Datum
                     $pdf->SetFont('Arial','',12);
-                    $pdf->text(72,45,$einsatz_datum);
+                    $pdf->text(72,45, date("d.m.Y", strtotime($einsatz_datum)));
+
+
+
 
                     //Beginn
                     $pdf->text(105,45,$einsatz_beginn_time);
@@ -249,7 +249,7 @@ class ProtokolleController extends Controller
                     $pdf->text(138,55,$einsatz_eintreffzeit_time);
 
                     //Frei Einsatzstelle (S9)
-                    $pdf->text(171,55,$einsatz_frei_einsatzstelle);
+                    $pdf->text(171,55,$einsatz_frei_einsatzstelle_time);
 
                     //Einsatz Anforderung durch
 
@@ -476,9 +476,7 @@ class ProtokolleController extends Controller
                         $pdf->SetFont('Arial','',12);
                     }
                     //OV-KZ
-                    $pdf->SetFont('Arial','',8);
-                    $pdf->text(137,62.8, $helfer_1_dropdown_ov_kz);
-                    $pdf->SetFont('Arial','',12);
+                    $pdf->text(138.5,63,  preg_replace('/[^0-9]/', '', $helfer_1_dropdown_ov_kz));
 
                     //Von
                     $pdf->text(149,63,$helfer_1_von_time);
@@ -492,19 +490,25 @@ class ProtokolleController extends Controller
                     $pdf->text(35,73,$helfer_2_name_vorname);
                     //BL
                     if ($helfer_2_checkbox_bl) {
+                        $pdf->SetFont('Arial','B',12);
                         $pdf->text(108,73,'X');
+                        $pdf->SetFont('Arial','',12);
 
                     }
                     //ZF / Artzt
                     if ($helfer_2_checkbox_zf_artzt) {
+                        $pdf->SetFont('Arial','B',12);
                         $pdf->text(118,73,'X');
+                        $pdf->SetFont('Arial','',12);
                     }
                     //GF
                     if ($helfer_2_checkbox_gf) {
+                        $pdf->SetFont('Arial','B',12);
                         $pdf->text(128,73,'X');
+                        $pdf->SetFont('Arial','',12);
                     }
                     //OV-KZ
-                    $pdf->text(138.5,73,$helfer_2_dropdown_ov_kz);
+                    $pdf->text(138.5,73, preg_replace('/[^0-9]/', '', $helfer_2_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,73,$helfer_2_von_time);
                     //Bis
@@ -516,7 +520,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,83,$helfer_3_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,83,$helfer_3_dropdown_ov_kz);
+                    $pdf->text(138.5,83, preg_replace('/[^0-9]/', '', $helfer_3_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,83,$helfer_3_von_time);
                     //Bis
@@ -528,7 +532,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,93,$helfer_4_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,93,$helfer_4_dropdown_ov_kz);
+                    $pdf->text(138.5,93, preg_replace('/[^0-9]/', '', $helfer_4_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,93,$helfer_4_von_time);
                     //Bis
@@ -540,7 +544,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,103,$helfer_5_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,103,$helfer_5_dropdown_ov_kz);
+                    $pdf->text(138.5,103, preg_replace('/[^0-9]/', '', $helfer_5_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,103,$helfer_5_von_time);
                     //Bis
@@ -552,7 +556,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,113,$helfer_6_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,113,$helfer_6_dropdown_ov_kz);
+                    $pdf->text(138.5,113, preg_replace('/[^0-9]/', '', $helfer_6_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,113,$helfer_6_von_time);
                     //Bis
@@ -564,7 +568,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,123,$helfer_7_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,123,$helfer_7_dropdown_ov_kz);
+                    $pdf->text(138.5,123, preg_replace('/[^0-9]/', '', $helfer_7_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,123,$helfer_7_von_time);
                     //Bis
@@ -576,7 +580,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,133,$helfer_8_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,133,$helfer_8_dropdown_ov_kz);
+                    $pdf->text(138.5,133, preg_replace('/[^0-9]/', '', $helfer_8_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,133,$helfer_8_von_time);
                     //Bis
@@ -588,7 +592,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,143,$helfer_9_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,143,$helfer_9_dropdown_ov_kz);
+                    $pdf->text(138.5,143, preg_replace('/[^0-9]/', '', $helfer_9_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,143,$helfer_9_von_time);
                     //Bis
@@ -600,7 +604,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,153,$helfer_10_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,153,$helfer_10_dropdownx_ov_kz);
+                    $pdf->text(138.5,153, preg_replace('/[^0-9]/', '', $helfer_10_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,153,$helfer_10_von_time);
                     //Bis
@@ -612,7 +616,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,163,$helfer_11_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,163,$helfer_11_dropdown_ov_kz);
+                    $pdf->text(138.5,163, preg_replace('/[^0-9]/', '', $helfer_11_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,163,$helfer_11_von_time);
                     //Bis
@@ -624,7 +628,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,173,$helfer_12_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,173,$helfer_12_dropdown_ov_kz);
+                    $pdf->text(138.5,173, preg_replace('/[^0-9]/', '', $helfer_12_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,173,$helfer_12_von_time);
                     //Bis
@@ -636,7 +640,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,183,$helfer_13_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,183,$helfer_13_dropdown_ov_kz);
+                    $pdf->text(138.5,183, preg_replace('/[^0-9]/', '', $helfer_13_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,183,$helfer_13_von_time);
                     //Bis
@@ -648,7 +652,7 @@ class ProtokolleController extends Controller
                     //Name, Vorname
                     $pdf->text(35,193,$helfer_14_name_vorname);
                     //OV-KZ
-                    $pdf->text(138.5,193,$helfer_14_dropdown_ov_kz);
+                    $pdf->text(138.5,193, preg_replace('/[^0-9]/', '', $helfer_14_dropdown_ov_kz));
                     //Von
                     $pdf->text(149,193,$helfer_14_von_time);
                     //Bis
@@ -676,24 +680,18 @@ class ProtokolleController extends Controller
                     }
 
                     //offen geplant am
-                    if ($einsatznachbesprechung_checkbox_offen) {
+                    if ($einsatznachbesprechung_checkbox_geplant_am) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(133.8,207.8,'X');
-
-                    }
-
-                    //geplant am
-                    if ($einsatznachbesprechung_checkbox_geplant_am) {
                         $pdf->SetFont('Arial','',12);
-                        $pdf->text(170,207,$einsatznachbesprechung_textfield_geplant_am);
+                        $pdf->text(170,207, date("d.m.Y", strtotime($einsatznachbesprechung_textfield_geplant_am)));
                     }
-
 
                     //
                     //Rechtliches
                     //
                     //Ort, Datum
-                    $pdf->text(20,230,$rechtliches_textfield_datum  . ', '. $rechtliches_textfield_ort);
+                    $pdf->text(20,230, $rechtliches_textfield_ort . ', '.  date("d.m.Y", strtotime($rechtliches_datum)));
 
                     //Unterschrift E-Leitung/GF
 
