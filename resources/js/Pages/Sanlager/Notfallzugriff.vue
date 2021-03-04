@@ -25,6 +25,9 @@
             </div>
         </div>
 
+        <v-btn @click="sendPersonalnummer">Test</v-btn>
+
+
     </app-layout>
 </template>
 
@@ -38,17 +41,29 @@ export default {
         AppLayout,
         StreamBarcodeReader,
     },
-    data() {
-        return {
-            text: "",
-            id: null,
-        };
-    },
+
+    data: () => ({
+        text: "",
+        id: null,
+        data: {
+            personalnummer: 'LF07G49GBE',
+        }
+    }),
+
 
     methods: {
+
+        sendPersonalnummer() {
+            this.$inertia.post(this.route('sanlager.notfallzugriff.check.personalnummer'), this.data);
+        },
+
         onDecode(a, b, c) {
             console.log(a, b, c);
             this.text = a;
+
+            this.data.personalnummer = this.text;
+            this.sendPersonalnummer();
+
             if (this.id) clearTimeout(this.id);
             this.id = setTimeout(() => {
                 if (this.text === a) {

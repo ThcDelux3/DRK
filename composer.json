@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.5",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.3",
+        "setasign/tfpdf": "1.32",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

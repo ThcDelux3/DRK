@@ -2546,14 +2546,12 @@ export default {
             rechtliches_datum_menu: false,
             einsatznachbesprechung_textfield_geplant_am_menu: false,
 
-
             items_fahrzeuge_funkrufnamen: ['51/19-1', '51/58-1', '51/58-2'],
             items_fahrzeuge_kennzeichen: ['VS-RK-8507', 'VS-AJ-600', 'VS-RK-159', 'VS-RK-191', 'VS-RK-195', 'VS-RK-196', 'VS-RK-198', 'VS-RK-5000'],
             items_fahrzeuge_fahrzeugart: ['OV GW', 'GW-TuS-Land-BW', 'MTW', 'Schulbus', 'Wohnwagen', 'Anhänger'],
 
             items_helfer_checkbox_ov_kz: ['OV-VL (51)', 'OV-SE (52)', 'OV-BD (53)', 'OV-KÖ(57)', 'OV-STG (58)', 'OV-T/S (59)', 'OV-F (61)', 'OV-MW (62)', 'OV-NS (63)', 'OV-SCH (65)'],
-            items_helfer_checkbox_qualifikation: ['RH', 'RS', 'RA', 'NFS', 'Arzt', 'NA'],
-
+            items_helfer_checkbox_qualifikation: ['SanC', 'RH', 'RS', 'RA', 'NFS', 'Arzt', 'NA'],
 
             helfer_1_von_menu: false,
             helfer_1_bis_menu: false,

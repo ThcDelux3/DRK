@@ -271,10 +271,11 @@
 
         <v-main v-scroll="onScroll">
             <v-container class="pt-7">
-                <header v-if="$slots.header" id="pageheader">
-                    <slot name="header"/>
+                <header v-if="$slots.header">
+                    <h2>
+                        <slot name="header"/>
+                    </h2>
                 </header>
-
                 <slot/>
             </v-container>
         </v-main>
@@ -337,17 +338,6 @@ main.v-main {
 
 #app-nav v-toolbar-item.text-capitalize.ml-5 h2 {
     color: rgba(0, 0, 0, 0.6) !important;
-}
-
-#pageheader {
-    line-height: 1.25;
-    font-size: 1.5rem;
-    padding-left: 2.5rem;
-}
-
-#pageheader h2 {
-    color: #424242 !important;
-    caret-color: #424242 !important;
 }
 
 .fade-enter-active, .fade-leave-active {

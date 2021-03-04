@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sanlager;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SanlagerController extends Controller
 {
@@ -82,4 +84,23 @@ class SanlagerController extends Controller
     {
         //
     }
+
+    public function NotfallZugriff(Request $request) {
+
+        $personal_nummer = $request->get('personalnummer');
+
+        if (User::where('personalnummer', '=', $personal_nummer)->exists()) {
+            // Personalnummer exsistiert
+
+
+            //TODO Insert User in DB Notfallzugriff
+
+            return Inertia::render('Sanlager/showcode');
+        } else {
+            echo 'User not found!';
+        }
+
+    }
+
+
 }

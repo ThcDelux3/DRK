@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Protokolle;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use setasign\Fpdi\Tfpdf\Fpdi;
 use Inertia\Inertia;
-use Symfony\Component\Console\Input\Input;
 
 class ProtokolleController extends Controller
 {
@@ -39,8 +38,6 @@ class ProtokolleController extends Controller
      */
     public function store(Request $request)
     {
-
-        $pdf = new \setasign\Fpdi\Fpdi();
 
         //Einsatz
         $einsatz_datum = $request->input('einsatz_datum');
@@ -204,8 +201,17 @@ class ProtokolleController extends Controller
         $rechtliches_datum = $request->input('rechtliches_datum');
         $rechtliches_textfield_unterschrift = $request->input('rechtliches_textfield_unterschrift');
 
+
+
+        $pdf = new Fpdi();
+
         //Load PDF from preset folder
         $pages_count = $pdf->setSourceFile('pdf_vorlagen/FO_E00-19-09_V1.0.pdf');
+
+        // Add a Unicode font (uses UTF-8)
+        define('FPDF_FONTPATH','/public/font');
+        $pdf->AddFont('DejaVuSansCondensed','','DejaVuSansCondensed.ttf',true);
+        $pdf->SetFont('DejaVuSansCondensed','',12);
 
         //loop over all Pages in the PDF
         for($i = 1; $i <= $pages_count; $i++)
@@ -224,11 +230,7 @@ class ProtokolleController extends Controller
                     //
 
                     //Datum
-                    $pdf->SetFont('Arial','',12);
                     $pdf->text(72,45, date("d.m.Y", strtotime($einsatz_datum)));
-
-
-
 
                     //Beginn
                     $pdf->text(105,45,$einsatz_beginn_time);
@@ -258,21 +260,21 @@ class ProtokolleController extends Controller
                     if ($einsatz_checkbox_nach_aao) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(69.2,70.4,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
 
                     //MANV
                     if ($einsatz_checkbox_manv) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(88.5,70.4,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
 
                     //EE
                     if ($einsatz_checkbox_ee) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(104.5,70.4,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
 
                     }
 
@@ -280,7 +282,7 @@ class ProtokolleController extends Controller
                     if ($einsatz_checkbox_fw_swd_ab) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(115.8,70.4,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                         $pdf->text(137,70,$einsatz_fw_swd_time);
                     }
 
@@ -288,13 +290,13 @@ class ProtokolleController extends Controller
                     if ($einsatz_einsatz_anforderung_checkbox_sonstiges) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(158,70.4,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                         $pdf->text(162,70,$einsatz_einsatz_anforderung_textfield_sontiges);
                     }
 
 
                     //Einsatzort
-                    $pdf->SetFont('Arial','',12);
+                    $pdf->SetFont('DejaVuSansCondensed','',12);
                     $pdf->text(72,80,$einsatz_textfield_einsatzort);
 
                     //Einsatzart
@@ -303,21 +305,21 @@ class ProtokolleController extends Controller
                     if ($einsatz_checkbox_brandeinsatz) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(69.2,91,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
 
                     //Suchaktion
                     if ($einsatz_checkbox_suchaktion) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(94.3,91,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
 
                     //Verkehrsunfall
                     if ($einsatz_checkbox_verkehrsunfall) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(117,91,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
 
                     //MANV
@@ -325,27 +327,27 @@ class ProtokolleController extends Controller
 
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(148,91,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
 
                     //Einsatzeinheit
                     if ($einsatz_checkbox_einsatzeinheit) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(170.5,91,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
 
                     //Sonstige
                     if ($einsatz_einsatzart_checkbox_sonstige) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(69.2,98,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                         $pdf->text(85,97,'Grund');
                     }
 
                     //Einsatzauftrag
                     if ($einsatz_textfield_einsatzauftrag) {
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                         $pdf->text(72,113,$einsatz_einsatzart_textfield_sonstige);
 
                     }
@@ -461,19 +463,19 @@ class ProtokolleController extends Controller
                     if($helfer_1_checkbox_bl) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(108,63,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
                     //ZF / Artzt
                     if ($helfer_1_checkbox_zf_artzt) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(118,63,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
                     //GF
                     if ($helfer_1_checkbox_gf) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(128,63, 'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
                     //OV-KZ
                     $pdf->text(138.5,63,  preg_replace('/[^0-9]/', '', $helfer_1_dropdown_ov_kz));
@@ -492,20 +494,20 @@ class ProtokolleController extends Controller
                     if ($helfer_2_checkbox_bl) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(108,73,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
 
                     }
                     //ZF / Artzt
                     if ($helfer_2_checkbox_zf_artzt) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(118,73,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
                     //GF
                     if ($helfer_2_checkbox_gf) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(128,73,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
                     //OV-KZ
                     $pdf->text(138.5,73, preg_replace('/[^0-9]/', '', $helfer_2_dropdown_ov_kz));
@@ -668,14 +670,14 @@ class ProtokolleController extends Controller
                     if ($einsatznachbesprechung_checkbox_durchgefuehrt) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(22.2,207.8,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                     }
 
                     //nein Grund
                     if ($einsatznachbesprechung_checkbox_nein_grund) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(59.8,207.8,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                         $pdf->text(85,207,$einsatznachbesprechung_textfield_nein_grund);
                     }
 
@@ -683,7 +685,7 @@ class ProtokolleController extends Controller
                     if ($einsatznachbesprechung_checkbox_geplant_am) {
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(133.8,207.8,'X');
-                        $pdf->SetFont('Arial','',12);
+                        $pdf->SetFont('DejaVuSansCondensed','',12);
                         $pdf->text(170,207, date("d.m.Y", strtotime($einsatznachbesprechung_textfield_geplant_am)));
                     }
 

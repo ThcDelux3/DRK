@@ -40,11 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return Inertia::render('Sanlager/Notfallzugriff');
     })->name('sanlager.notfallzugriff');
 
-    Route::get('/sanlager/showcode', function (){
-        return Inertia::render('Sanlager/showcode');
-    })->name('sanlager.showcode');
-
-/*    Route::get('/sanlager', [SanlagerController::class, 'index'])->name('sanlager');*/
+    Route::post('/sanlager/notfallzugriff', [SanlagerController::class, 'NotfallZugriff'])->name('sanlager.notfallzugriff.check.personalnummer');
 
     //Protokolle
     Route::get('/protokolle', function (){
@@ -55,7 +51,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return Inertia::render('Protokolle/Einsatzprotokoll');
     })->name('protokolle.einsatzprotokoll');
 
-/*    Route::post('/protokolle/pdf', [ProtokolleController::class, 'store'])->name('protokolle.store');*/
     Route::post('/protokolle/pdf', [ProtokolleController::class, 'store'])->name('protokolle.store');
 
 });
