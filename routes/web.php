@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AutocompleteController;
 use App\Http\Controllers\ProtokolleController;
 use App\Http\Controllers\SanlagerController;
 use Illuminate\Foundation\Application;
@@ -47,11 +48,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return Inertia::render('Protokolle/Protokolle');
     })->name('protokolle');
 
-    Route::get('/protokolle/einsatzprotokoll', function (){
-        return Inertia::render('Protokolle/Einsatzprotokoll');
-    })->name('protokolle.einsatzprotokoll');
+    Route::get('/protokolle/einsatzprotokoll', [ProtokolleController::class, 'index'])->name('protokolle.einsatzprotokoll');
 
     Route::post('/protokolle/pdf', [ProtokolleController::class, 'store'])->name('protokolle.store');
+
+    Route::get('search', [AutoCompleteController::class, 'index'])->name('autocomplete');
+
 
 });
 

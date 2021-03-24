@@ -10,7 +10,7 @@
       <div class="mx-auto py-10 px-sm-6 px-lg-8">
         <div v-if="$page.props.jetstream.canUpdateProfileInformation">
             <update-profile-information-form :user="$page.props.user" />
-          
+
             <v-divider class="my-8" />
         </div>
 
@@ -26,10 +26,9 @@
             <v-divider class="my-8" />
         </div>
 
-        
 
         <logout-other-browser-sessions-form :sessions="sessions" class="mt-10 mt-sm-0" />
-  
+
         <template v-if="$page.props.jetstream.hasAccountDeletionFeatures">
           <v-divider class="my-8" />
 

@@ -42,7 +42,7 @@
                                                 prepend-inner-icon="mdi-calendar"
                                                 readonly
                                                 type="date"
-                                                required
+                                                :rules="required"
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker
@@ -78,7 +78,7 @@
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
                                                 type="time"
-                                                required
+                                                :rules="required"
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -117,7 +117,7 @@
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
                                                 type="time"
-                                                required
+                                                :rules="required"
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -141,7 +141,7 @@
                                         label="Einsatz Nr."
                                         min="0"
                                         type="number"
-                                        required
+                                        disabled
                                     ></v-text-field>
                                 </v-col>
 
@@ -171,7 +171,7 @@
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
                                                 type="time"
-                                                required
+                                                :rules="required"
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -210,7 +210,7 @@
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
                                                 type="time"
-                                                required
+                                                :rules="required"
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -249,7 +249,7 @@
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
                                                 type="time"
-                                                required
+                                                :rules="required"
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -290,7 +290,7 @@
                                                 prepend-inner-icon="mdi-clock-time-four-outline"
                                                 readonly
                                                 type="time"
-                                                required
+                                                :rules="required"
                                             ></v-text-field>
                                         </template>
                                         <v-time-picker
@@ -366,6 +366,7 @@
                                 >
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
+                                            :disabled="!form.einsatz_checkbox_fw_swd_ab"
                                             v-model="form.einsatz_fw_swd_time"
                                             v-bind="attrs"
                                             v-on="on"
@@ -393,6 +394,7 @@
                                     hide-details
                                 ></v-checkbox>
                                 <v-text-field
+                                    :disabled="!form.einsatz_einsatz_anforderung_checkbox_sonstiges"
                                     v-model="form.einsatz_einsatz_anforderung_textfield_sontiges"></v-text-field>
                             </v-row>
                         </v-container>
@@ -406,7 +408,7 @@
                                 v-model="form.einsatz_textfield_einsatzort"
                                 label="Einsatzort"
                                 prepend-inner-icon="mdi-map-marker"
-                                required
+                                :rules="required"
                             ></v-text-field>
                         </v-container>
                     </v-sheet>
@@ -474,7 +476,11 @@
                                     hide-details
                                     label="Sonstige"
                                 ></v-checkbox>
-                                <v-text-field v-model="form.einsatz_einsatzart_textfield_sonstige"></v-text-field>
+                                <v-text-field
+                                    v-model="form.einsatz_einsatzart_textfield_sonstige"
+                                    :disabled="!form.einsatz_einsatzart_checkbox_sonstige"
+
+                                ></v-text-field>
 
                             </v-row>
                         </v-container>
@@ -488,7 +494,7 @@
                                 v-model="form.einsatz_textfield_einsatzauftrag"
                                 label="Einsatzauftrag"
                                 prepend-inner-icon="mdi-clipboard-text"
-                                required
+                                :rules="required"
                             ></v-text-field>
                         </v-container>
                     </v-sheet>
@@ -509,7 +515,7 @@
                                     <v-text-field
                                         v-model="form.einheit_textfield_org_lm_herkunft_bezeichnung"
                                         label="Org / LM / Herkunft / Bezeichnung"
-                                        required
+                                        :rules="required"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col>
@@ -517,6 +523,8 @@
                                         v-model="form.einheit_textfield_staerke_zf_artzt"
                                         label="ZF / Artzt"
                                         type="number"
+                                        :rules="required"
+                                        min="0"
                                     ></v-text-field>
                                 </v-col>
 
@@ -525,6 +533,8 @@
                                         v-model="form.einheit_textfield_staerke_gf"
                                         label="GF"
                                         type="number"
+                                        :rules="required"
+                                        min="0"
                                     ></v-text-field>
                                 </v-col>
 
@@ -533,16 +543,20 @@
                                         v-model="form.einheit_textfield_staerke_helfer"
                                         label="Helfer"
                                         type="number"
+                                        :rules="required"
+                                        min="0"
                                     ></v-text-field>
                                 </v-col>
 
                                 <v-col>
                                     <v-text-field
-                                        v-model="form.einheit_textfield_staerke_gesamt"
+                                        :value="calc_einheit_textfield_staerke_gesamt"
                                         label="Gesamt"
                                         type="number"
-                                        required
+                                        :rules="required"
+                                        min="0"
                                     ></v-text-field>
+
                                 </v-col>
 
                             </v-row>
@@ -562,115 +576,159 @@
                         <v-container>
 
                             <v-row>
+
                                 <v-icon>1</v-icon>
+
                                 <v-col>
-                                    <v-select
-                                        v-model="form.fahrzeuge_textfield_1_funkrufname"
-                                        :items="items_fahrzeuge_funkrufnamen"
-                                        dense
-                                        hide-details
-                                        label="Funkrufnamen"
-                                        prepend-inner-icon="mdi-radio-handheld"
-                                    ></v-select>
+
+                                <v-select
+                                    :items="fahrzeuge"
+                                    item-text="kennzeichen"
+                                    dense
+                                    hide-details
+                                    label="Fahrzeug"
+                                    prepend-inner-icon="mdi-car"
+                                    clearable
+                                >
+
+                                    <template v-slot:item="slotProps">
+
+                                        <v-row align="center" @click="form.fahrzeuge_textfield_1_funkrufname = slotProps.item.funkrufname, form.fahrzeuge_textfield_1_kennzeichen = slotProps.item.kennzeichen, form.fahrzeuge_textfield_1_fahrzeugart= slotProps.item.fahrzeugart">
+
+                                            <v-col>
+                                                <v-img class="mr-2 mb-2 mt-2"
+                                                       contain
+                                                       max-height="50"
+                                                       max-width="100"
+                                                       src="https://picsum.photos/id/11/500/300">
+                                                </v-img>
+                                            </v-col>
+
+                                            <v-col>
+                                                <p class="mr-2">{{ slotProps.item.funkrufname }}<p/>
+                                            </v-col>
+
+                                            <v-col>
+                                                <p class="mr-2">{{ slotProps.item.kennzeichen }}</p>
+                                            </v-col>
+
+                                            <v-col>
+                                                <p>{{ slotProps.item.fahrzeugart }}</p>
+
+                                            </v-col>
+
+                                        </v-row>
+
+                                    </template>
+
+                                </v-select>
 
                                 </v-col>
 
-                                <v-col>
-                                    <v-select
-                                        v-model="form.fahrzeuge_textfield_1_kennzeichen"
-                                        :items="items_fahrzeuge_kennzeichen"
-                                        dense
-                                        hide-details
-                                        label="Amtl. Kennzeichen"
-                                        prepend-inner-icon="mdi-card-text"
-                                    ></v-select>
-                                </v-col>
-
-                                <v-col>
-                                    <v-select
-                                        v-model="form.fahrzeuge_textfield_1_fahrzeugart"
-                                        :items="items_fahrzeuge_fahrzeugart"
-                                        dense
-                                        hide-details
-                                        label="Fahrzeugart"
-                                        prepend-inner-icon="mdi-car-info"
-                                    ></v-select>
-                                </v-col>
                             </v-row>
 
                             <v-row>
+
                                 <v-icon>2</v-icon>
+
                                 <v-col>
+
                                     <v-select
-                                        v-model="form.fahrzeuge_textfield_2_funkrufname"
-                                        :items="items_fahrzeuge_funkrufnamen"
+                                        :items="fahrzeuge"
+                                        item-text="kennzeichen"
                                         dense
                                         hide-details
-                                        label="Funkrufnamen"
-                                        prepend-inner-icon="mdi-radio-handheld"
-                                    ></v-select>
+                                        label="Fahrzeug"
+                                        prepend-inner-icon="mdi-car"
+                                        clearable
+                                    >
+
+                                        <template v-slot:item="slotProps">
+
+                                            <v-row align="center" @click="form.fahrzeuge_textfield_2_funkrufname = slotProps.item.funkrufname, form.fahrzeuge_textfield_2_kennzeichen = slotProps.item.kennzeichen, form.fahrzeuge_textfield_2_fahrzeugart= slotProps.item.fahrzeugart">
+
+                                                <v-col>
+                                                    <v-img class="mr-2 mb-2 mt-2"
+                                                           contain
+                                                           max-height="50"
+                                                           max-width="100"
+                                                           src="https://picsum.photos/id/11/500/300">
+                                                    </v-img>
+                                                </v-col>
+
+                                                <v-col>
+                                                    <p class="mr-2">{{ slotProps.item.funkrufname }}<p/>
+                                                </v-col>
+
+                                                <v-col>
+                                                    <p class="mr-2">{{ slotProps.item.kennzeichen }}</p>
+                                                </v-col>
+
+                                                <v-col>
+                                                    <p>{{ slotProps.item.fahrzeugart }}</p>
+
+                                                </v-col>
+
+                                            </v-row>
+
+                                        </template>
+
+                                    </v-select>
 
                                 </v-col>
 
-                                <v-col>
-                                    <v-select
-                                        v-model="form.fahrzeuge_textfield_2_kennzeichen"
-                                        :items="items_fahrzeuge_kennzeichen"
-                                        dense
-                                        hide-details
-                                        label="Amtl. Kennzeichen"
-                                        prepend-inner-icon="mdi-card-text"
-                                    ></v-select>
-                                </v-col>
-
-                                <v-col>
-                                    <v-select
-                                        v-model="form.fahrzeuge_textfield_2_fahrzeugart"
-                                        :items="items_fahrzeuge_fahrzeugart"
-                                        dense
-                                        hide-details
-                                        label="Fahrzeugart"
-                                        prepend-inner-icon="mdi-car-info"
-                                    ></v-select>
-                                </v-col>
                             </v-row>
 
-
                             <v-row>
+
                                 <v-icon>3</v-icon>
+
                                 <v-col>
+
                                     <v-select
-                                        v-model="form.fahrzeuge_textfield_3_funkrufname"
-                                        :items="items_fahrzeuge_funkrufnamen"
+                                        :items="fahrzeuge"
+                                        item-text="kennzeichen"
                                         dense
                                         hide-details
-                                        label="Funkrufnamen"
-                                        prepend-inner-icon="mdi-radio-handheld"
-                                    ></v-select>
+                                        label="Fahrzeug"
+                                        prepend-inner-icon="mdi-car"
+                                        clearable
+                                    >
+
+                                        <template v-slot:item="slotProps">
+
+                                            <v-row align="center" @click="form.fahrzeuge_textfield_3_funkrufname = slotProps.item.funkrufname, form.fahrzeuge_textfield_3_kennzeichen = slotProps.item.kennzeichen, form.fahrzeuge_textfield_3_fahrzeugart= slotProps.item.fahrzeugart">
+
+                                                <v-col>
+                                                    <v-img class="mr-2 mb-2 mt-2"
+                                                           contain
+                                                           max-height="50"
+                                                           max-width="100"
+                                                           src="https://picsum.photos/id/11/500/300">
+                                                    </v-img>
+                                                </v-col>
+
+                                                <v-col>
+                                                    <p class="mr-2">{{ slotProps.item.funkrufname }}<p/>
+                                                </v-col>
+
+                                                <v-col>
+                                                    <p class="mr-2">{{ slotProps.item.kennzeichen }}</p>
+                                                </v-col>
+
+                                                <v-col>
+                                                    <p>{{ slotProps.item.fahrzeugart }}</p>
+
+                                                </v-col>
+
+                                            </v-row>
+
+                                        </template>
+
+                                    </v-select>
 
                                 </v-col>
 
-                                <v-col>
-                                    <v-select
-                                        v-model="form.fahrzeuge_textfield_3_kennzeichen"
-                                        :items="items_fahrzeuge_kennzeichen"
-                                        dense
-                                        hide-details
-                                        label="Amtl. Kennzeichen"
-                                        prepend-inner-icon="mdi-card-text"
-                                    ></v-select>
-                                </v-col>
-
-                                <v-col>
-                                    <v-select
-                                        v-model="form.fahrzeuge_textfield_3_fahrzeugart"
-                                        :items="items_fahrzeuge_fahrzeugart"
-                                        dense
-                                        hide-details
-                                        label="Fahrzeugart"
-                                        prepend-inner-icon="mdi-car-info"
-                                    ></v-select>
-                                </v-col>
                             </v-row>
 
                         </v-container>
@@ -708,7 +766,7 @@
                                 v-model="form.kurzbericht_textfield"
                                 label="Kurzbericht"
                                 prepend-inner-icon="mdi-clipboard-text"
-                                required
+                                :rules="required"
                             ></v-textarea>
                         </v-container>
                     </v-sheet>
@@ -836,17 +894,27 @@
                                     <!--1-->
                                     <v-row align="center" class="justify-space-around">
 
-
                                         <v-icon>1</v-icon>
 
                                         <v-col
                                             sm="3"
                                         >
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_1_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
+                                                item-value="name"
                                             >
-                                            </v-text-field>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' +item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
                                         </v-col>
 
 
@@ -918,6 +986,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -952,6 +1021,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -986,11 +1056,21 @@
                                         <v-col
                                             sm="3"
                                         >
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_2_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
                                         </v-col>
 
 
@@ -1062,6 +1142,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1096,6 +1177,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1137,18 +1219,25 @@
                                     <!--3-->
                                     <v-row align="center">
 
-
                                         <v-icon>3</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_3_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
                                         </v-col>
-
 
                                         <v-col>
                                             <v-select
@@ -1180,6 +1269,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1212,6 +1302,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1239,16 +1330,24 @@
                                     <!--4-->
                                     <v-row align="center">
 
-
                                         <v-icon>4</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_4_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
                                         </v-col>
 
 
@@ -1282,6 +1381,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1314,6 +1414,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1341,16 +1442,24 @@
                                     <!--5-->
                                     <v-row align="center">
 
-
                                         <v-icon>5</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_5_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
                                         </v-col>
 
 
@@ -1384,6 +1493,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1416,6 +1526,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1443,18 +1554,26 @@
                                     <!--6-->
                                     <v-row align="center">
 
-
                                         <v-icon>6</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_6_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
-                                        </v-col>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
 
+                                        </v-col>
 
                                         <v-col>
                                             <v-select
@@ -1486,6 +1605,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1518,6 +1638,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1545,18 +1666,25 @@
                                     <!--7-->
                                     <v-row align="center">
 
-
                                         <v-icon>7</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_7_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
                                         </v-col>
-
 
                                         <v-col>
                                             <v-select
@@ -1588,6 +1716,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1620,6 +1749,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1647,18 +1777,26 @@
                                     <!--8-->
                                     <v-row align="center">
 
-
                                         <v-icon>8</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_8_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
-                                        </v-col>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
 
+                                        </v-col>
 
                                         <v-col>
                                             <v-select
@@ -1690,6 +1828,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1722,6 +1861,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1749,18 +1889,26 @@
                                     <!--9-->
                                     <v-row align="center">
 
-
                                         <v-icon>9</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_9_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
-                                        </v-col>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
 
+                                        </v-col>
 
                                         <v-col>
                                             <v-select
@@ -1792,6 +1940,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1824,6 +1973,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1851,18 +2001,25 @@
                                     <!--10-->
                                     <v-row align="center">
 
-
                                         <v-icon>10</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_10_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
                                         </v-col>
-
 
                                         <v-col>
                                             <v-select
@@ -1894,6 +2051,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1926,6 +2084,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -1953,18 +2112,26 @@
                                     <!--11-->
                                     <v-row align="center">
 
-
                                         <v-icon>11</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_11_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
-                                        </v-col>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
 
+                                        </v-col>
 
                                         <v-col>
                                             <v-select
@@ -1996,6 +2163,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -2028,6 +2196,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -2055,18 +2224,26 @@
                                     <!--12-->
                                     <v-row align="center">
 
-
                                         <v-icon>12</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_12_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
-                                        </v-col>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
 
+                                        </v-col>
 
                                         <v-col>
                                             <v-select
@@ -2098,6 +2275,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -2130,6 +2308,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -2157,18 +2336,26 @@
                                     <!--13-->
                                     <v-row align="center">
 
-
                                         <v-icon>13</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_13_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
-                                        </v-col>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
 
+                                        </v-col>
 
                                         <v-col>
                                             <v-select
@@ -2200,6 +2387,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -2232,6 +2420,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -2261,15 +2450,24 @@
 
                                         <v-icon>14</v-icon>
 
-
                                         <v-col>
-                                            <v-text-field
+                                            <v-autocomplete
                                                 v-model="form.helfer_14_name_vorname"
                                                 label="Name, Vorname"
+                                                clearable
+                                                hide-no-data
+                                                :items="users"
+                                                item-text="name"
                                             >
-                                            </v-text-field>
-                                        </v-col>
+                                                <template v-slot:item="{ item }">
+                                                    <v-list-item-content>
+                                                        <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
+                                                        <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
+                                                    </v-list-item-content>
+                                                </template>
+                                            </v-autocomplete>
 
+                                        </v-col>
 
                                         <v-col>
                                             <v-select
@@ -2301,6 +2499,7 @@
                                                         label="Von"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -2333,6 +2532,7 @@
                                                         label="Bis"
                                                         prepend-inner-icon="mdi-clock-time-four-outline"
                                                         readonly
+                                                        clearable
                                                     ></v-text-field>
                                                 </template>
                                                 <v-time-picker
@@ -2393,7 +2593,12 @@
                                     hide-details
                                     label="nein Grund:"
                                 ></v-checkbox>
-                                <v-text-field v-model="form.einsatznachbesprechung_textfield_nein_grund"></v-text-field>
+                                <v-text-field
+                                    v-model="form.einsatznachbesprechung_textfield_nein_grund"
+                                    :disabled="!form.einsatznachbesprechung_checkbox_nein_grund"
+                                >
+
+                                </v-text-field>
 
                                 <v-spacer></v-spacer>
 
@@ -2414,6 +2619,7 @@
                                 >
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-text-field
+                                            :disabled="!form.einsatznachbesprechung_checkbox_geplant_am"
                                             v-model="form.einsatznachbesprechung_textfield_geplant_am"
                                             v-bind="attrs"
                                             v-on="on"
@@ -2421,7 +2627,6 @@
                                             prepend-inner-icon="mdi-calendar"
                                             readonly
                                             type="date"
-                                            required
                                         ></v-text-field>
                                     </template>
                                     <v-date-picker
@@ -2451,7 +2656,7 @@
                                         v-model="form.rechtliches_textfield_ort"
                                         label="Ort"
                                         prepend-inner-icon="mdi-map-marker"
-                                        required
+                                        :rules="required"
                                     >
                                     </v-text-field>
                                 </v-col>
@@ -2475,7 +2680,7 @@
                                                 prepend-inner-icon="mdi-calendar"
                                                 readonly
                                                 type="date"
-                                                required
+                                                :rules="required"
                                             ></v-text-field>
                                         </template>
                                         <v-date-picker
@@ -2491,7 +2696,7 @@
                                         v-model="form.rechtliches_textfield_unterschrift"
                                         label="Unterschrift E-Leitung/GF"
                                         prepend-inner-icon="mdi-signature"
-                                        required
+                                        :rules="required"
                                     >
                                     </v-text-field>
                                 </v-col>
@@ -2531,8 +2736,21 @@
 
 <script>
 import AppLayout from '@/Layouts/AppLayout'
+import Autocomplete from "@/Components/Autocomplete";
 
 export default {
+
+    props: ['users'],
+
+    //Merge von vor und nachname zu name für Helfer autocomplete
+    created() {
+        for(var i = 0; i < this.users.length; i++) {
+            this.users[i].name = this.users[i].vorname + ' ' + this.users[i].nachname;
+        }
+
+
+    },
+
     data() {
         return {
 
@@ -2546,9 +2764,60 @@ export default {
             rechtliches_datum_menu: false,
             einsatznachbesprechung_textfield_geplant_am_menu: false,
 
-            items_fahrzeuge_funkrufnamen: ['51/19-1', '51/58-1', '51/58-2'],
-            items_fahrzeuge_kennzeichen: ['VS-RK-8507', 'VS-AJ-600', 'VS-RK-159', 'VS-RK-191', 'VS-RK-195', 'VS-RK-196', 'VS-RK-198', 'VS-RK-5000'],
-            items_fahrzeuge_fahrzeugart: ['OV GW', 'GW-TuS-Land-BW', 'MTW', 'Schulbus', 'Wohnwagen', 'Anhänger'],
+            searchTerm: '',
+
+            fahrzeuge: [
+                {
+                    funkrufname: '51/19-1',
+                    kennzeichen: 'VS-RK-196',
+                    fahrzeugart: 'MTW',
+                },
+
+                {
+                    funkrufname: '51/58-1',
+                    kennzeichen: 'VS-RK-8507',
+                    fahrzeugart: 'GW-TuS-Land-BW',
+                },
+
+                {
+                    funkrufname: '51/58-2',
+                    kennzeichen: 'VS-RK-159',
+                    fahrzeugart: 'OV GW',
+                },
+
+                {
+                    funkrufname: '  /  - ',
+                    kennzeichen: 'VS-RK-191',
+                    fahrzeugart: 'Schulbus',
+                },
+
+                {
+                    funkrufname: '  /  - ',
+                    kennzeichen: 'VS-RK-195',
+                    fahrzeugart: 'Schulbus',
+                },
+
+                {
+                    funkrufname: '  /  - ',
+                    kennzeichen: 'VS-RK-198',
+                    fahrzeugart: 'Schulbus',
+                },
+
+                {
+                    funkrufname: '  /  - ',
+                    kennzeichen: 'VS-AJ-600',
+                    fahrzeugart: 'Wohnwagen',
+                },
+
+                {
+                    funkrufname: '  /  - ',
+                    kennzeichen: 'VS-RK-5000',
+                    fahrzeugart: 'Anhänger',
+                },
+
+            ],
+
+            fahrzeuge_copy: [],
 
             items_helfer_checkbox_ov_kz: ['OV-VL (51)', 'OV-SE (52)', 'OV-BD (53)', 'OV-KÖ(57)', 'OV-STG (58)', 'OV-T/S (59)', 'OV-F (61)', 'OV-MW (62)', 'OV-NS (63)', 'OV-SCH (65)'],
             items_helfer_checkbox_qualifikation: ['SanC', 'RH', 'RS', 'RA', 'NFS', 'Arzt', 'NA'],
@@ -2581,6 +2850,11 @@ export default {
             helfer_13_bis_menu: false,
             helfer_14_von_menu: false,
             helfer_14_bis_menu: false,
+
+            required: [
+                v => !!v || 'Dieses Feld ist erforderlich',
+            ],
+
 
             form:  this.$inertia.form({
                 einsatz_datum: null,
@@ -2744,7 +3018,9 @@ export default {
 
     components: {
         AppLayout,
+        Autocomplete,
     },
+
 
     methods: {
         submit() {
@@ -2761,9 +3037,24 @@ export default {
 
         openPDF() {
             window.open("/test.pdf", "_blank");
+        },
+
+        checkboxValue: function(params) {
+            console.log(params);
+            this.helfer_1_name_vorname = params;
         }
 
     },
 
+    computed: {
+        calc_einheit_textfield_staerke_gesamt: function(){
+            let calc = Number(this.form.einheit_textfield_staerke_zf_artzt) + Number(this.form.einheit_textfield_staerke_gf) + Number(this.form.einheit_textfield_staerke_helfer);
+            this.form.einheit_textfield_staerke_gesamt = calc;
+            return calc;
+        }
+    }
+
 }
+
+
 </script>

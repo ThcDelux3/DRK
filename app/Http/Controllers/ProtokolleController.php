@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Protokolle;
+use App\Models\User;
 use Illuminate\Http\Request;
 use setasign\Fpdi\Tfpdf\Fpdi;
 use Inertia\Inertia;
@@ -16,7 +17,7 @@ class ProtokolleController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Protokolle/Einsatzprotokoll', ['users' => User::all()]);
     }
 
     /**
@@ -382,25 +383,25 @@ class ProtokolleController extends Controller
                     //
 
                     //1
-                    $pdf->text(78,142,$fahrzeuge_textfield_1_funkrufname);
+                    $pdf->text(77,142,$fahrzeuge_textfield_1_funkrufname);
 
-                    $pdf->text(120,142,$fahrzeuge_textfield_1_kennzeichen);
+                    $pdf->text(117,142,$fahrzeuge_textfield_1_kennzeichen);
 
-                    $pdf->text(160,142,$fahrzeuge_textfield_1_fahrzeugart);
+                    $pdf->text(157,142,$fahrzeuge_textfield_1_fahrzeugart);
 
                     //2
-                    $pdf->text(78,152,$fahrzeuge_textfield_2_funkrufname);
+                    $pdf->text(77,152,$fahrzeuge_textfield_2_funkrufname);
 
-                    $pdf->text(120,152,$fahrzeuge_textfield_2_kennzeichen);
+                    $pdf->text(117,152,$fahrzeuge_textfield_2_kennzeichen);
 
-                    $pdf->text(160,152,$fahrzeuge_textfield_2_fahrzeugart);
+                    $pdf->text(157,152,$fahrzeuge_textfield_2_fahrzeugart);
 
                     //3
-                    $pdf->text(78,162,$fahrzeuge_textfield_3_funkrufname);
+                    $pdf->text(77,162,$fahrzeuge_textfield_3_funkrufname);
 
-                    $pdf->text(120,162,$fahrzeuge_textfield_3_kennzeichen);
+                    $pdf->text(117,162,$fahrzeuge_textfield_3_kennzeichen);
 
-                    $pdf->text(160,162,$fahrzeuge_textfield_3_fahrzeugart);
+                    $pdf->text(157,162,$fahrzeuge_textfield_3_fahrzeugart);
 
                     //
                     //Weitere Materialien

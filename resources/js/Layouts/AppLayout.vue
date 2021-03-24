@@ -105,7 +105,7 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-avatar v-if="$page.props.jetstream.managesProfilePhotos" v-bind="attrs"
                                   v-on="on">
-                            <img :alt="$page.props.user.name" :src="$page.props.user.profile_photo_url">
+                            <img :alt="$page.props.user.vorname + ' ' + $page.props.user.nachname" :src="$page.props.user.profile_photo_url">
                         </v-avatar>
                         <v-btn
                             v-else
@@ -114,7 +114,7 @@
                             class="text-capitalize d-none d-sm-flex"
                             text
                         >
-                            {{ $page.props.user.name }}
+                            {{ $page.props.user.vorname + ' ' + $page.props.user.nachname }}
 
                             <svg class=" -mr-0.5 "
                                  fill="currentColor" style="width: 1.rem; height: 1rem; "
@@ -162,11 +162,11 @@
                 >
                     <v-list-item class="pt-2 pb-4 pl-0">
                         <v-list-item-avatar>
-                            <img :alt="$page.props.user.name" :src="$page.props.user.profile_photo_url"/>
+                            <img :alt="$page.props.user.vorname + ' ' + $page.props.user.nachname" :src="$page.props.user.profile_photo_url"/>
                         </v-list-item-avatar>
 
                         <v-list-item-content>
-                            <div>{{ $page.props.user.name }}</div>
+                            <div>{{ $page.props.user.vorname + ' ' + $page.props.user.nachname }}</div>
                             <div class="text--secondary">{{ $page.props.user.email }}</div>
                         </v-list-item-content>
                     </v-list-item>

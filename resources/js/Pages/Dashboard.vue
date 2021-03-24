@@ -5,7 +5,34 @@
                 Dashboard
             </h2>
         </template>
-            <v-container>
+
+
+        <v-autocomplete
+            v-model="model"
+            :items="items"
+            :search-input.sync="search"
+            clearable
+            solo
+            return-object
+            item-text="name"
+        >
+            <template v-slot:item="{ item }">
+
+                <div @click="form.helfer_1_name_vorname = item.vorname, form.helfer_1_name_nachname = item.nachname">
+
+                <v-list-item-content>
+                    <v-list-item-title v-text="item.vorname + ' ' +item.nachname"></v-list-item-title>
+                    <v-list-item-subtitle v-text="item.personalnummer"></v-list-item-subtitle>
+                </v-list-item-content>
+
+                </div>
+
+
+            </template>
+        </v-autocomplete>
+
+
+        <v-container>
 
                 <h2>Sanlger Abgelaufen</h2>
                 <h2>Sanlger Nachfüllen</h2>
@@ -34,6 +61,14 @@
 
         data() {
             return {
+
+                items: [],
+                item: [],
+                model: null,
+                search: null,
+
+                query: '',
+
                 headers: [
 
                     { text: 'Name', value: 'name' },
@@ -52,7 +87,25 @@
                 ],
 
             }
-        }
+        },
+
+        watch: {
+            search (val) {
+
+                    axios.get('/search',{params: {query: val}}).then(response => {
+
+                        for(var i = 0; i < response.data.length; i++) {
+                            response.data[i].name = response.data[i].vorname + ' ' + response.data[i].nachname;
+                        }
+
+                        this.items = response.data;
+
+
+                    });
+
+            },
+        },
+
 
     }
 </script>

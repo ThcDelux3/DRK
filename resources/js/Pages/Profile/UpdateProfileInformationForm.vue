@@ -30,31 +30,68 @@
                     Remove Photo
                 </v-btn>
 
-                <!-- <jet-input-error :message="form.errors.photo" class="mt-2" /> -->
             </div>
 
-            <!-- Name -->
+            <!-- Vorname -->
             <v-text-field
-                label="Name"
+                label="Vorname"
                 type="text"
-                outlined autocomplete="name"
-                 v-model="form.name"
-                :error-messages="form.errors.name"></v-text-field>
+                outlined autocomplete="vorname"
+                 v-model="form.vorname"
+                :error-messages="form.errors.vorname"></v-text-field>
+
+            <!-- Nachname -->
+            <v-text-field
+                label="Nachname"
+                type="text"
+                outlined autocomplete="nachname"
+                v-model="form.nachname"
+                :error-messages="form.errors.nachname"></v-text-field>
+
+            <!-- Perosnalnummer -->
+            <v-text-field
+                label="Personalnummer"
+                type="text"
+                outlined
+                v-model="form.personalnummer"
+                disabled
+                :error-messages="form.errors.personalnummer"></v-text-field>
+
+            <!-- Qualifikation -->
+            <v-text-field
+                label="Qualifikation"
+                type="text"
+                outlined
+                v-model="form.qualifikation"
+                disabled
+                :error-messages="form.errors.qualifikation"></v-text-field>
+
 
             <!-- Email -->
             <v-text-field
                 label="Email"
-                type="email" 
+                type="email"
                 outlined
                 v-model="form.email"
                 :error-messages="form.errors.email"></v-text-field>
+
+            <!-- Geburtsdatum -->
+            <v-text-field
+                label="Geburtsdatum"
+                type="text"
+                outlined autocomplete="bday"
+                v-model="form.geburtsdatum"
+                :error-messages="form.errors.geburtsdatum"></v-text-field>
+
         </template>
 
+
+
         <template #actions>
-            <transition 
-                
-                leave-active-class="transition ease-in duration-1000" 
-                leave-class="opacity-100" 
+            <transition
+
+                leave-active-class="transition ease-in duration-1000"
+                leave-class="opacity-100"
                 leave-to-class="opacity-0">
                 <div v-show="form.recentlySuccessful" class="text-sm text-gray-600">
                     Saved.
@@ -82,7 +119,10 @@
             return {
                 form: this.$inertia.form({
                     _method: 'PUT',
-                    name: this.user.name,
+                    vorname: this.user.vorname,
+                    nachname: this.user.nachname,
+                    personalnummer: this.user.personalnummer,
+                    geburtsdatum: this.user.geburtsdatum,
                     email: this.user.email,
                     photo: null,
                 }),

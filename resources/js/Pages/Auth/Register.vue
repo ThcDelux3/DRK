@@ -8,8 +8,10 @@
                     <validation-errors class="mb-4"/>
 
                     <form @submit.prevent="submit">
-                        <v-text-field v-model="form.name" autofocus dense
-                                      label="Full Name" outlined required></v-text-field>
+                        <v-text-field v-model="form.vorname" autofocus dense
+                                      label="Vorname" outlined required></v-text-field>
+                        <v-text-field v-model="form.nachname" autofocus dense
+                                      label="Nachname" outlined required></v-text-field>
                         <v-text-field v-model="form.email" dense
                                       label="Email address" outlined required></v-text-field>
                         <v-text-field v-model="form.password" :append-icon="showP ? 'mdi-eye' : 'mdi-eye-off'" :type="showP ? 'text' : 'password'" autocomplete="new-password"
@@ -66,7 +68,8 @@ export default {
             showP: false,
             showCP: false,
             form: this.$inertia.form({
-                name: '',
+                vorname: '',
+                nachname: '',
                 email: '',
                 password: '',
                 password_confirmation: '',
