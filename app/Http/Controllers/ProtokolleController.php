@@ -693,9 +693,12 @@ class ProtokolleController extends Controller
                     //
                     //Rechtliches
                     //
-                    //Ort, Datum
-                    $pdf->text(20,230, $rechtliches_textfield_ort . ', '.  date("d.m.Y", strtotime($rechtliches_datum)));
-
+                    //Ort,
+                    $pdf->SetFont('DejaVuSansCondensed','',10);
+                    $pdf->text(20,225, $rechtliches_textfield_ort);
+                    $pdf->SetFont('DejaVuSansCondensed','',12);
+                    //Datum
+                    $pdf->text(20,230, date("d.m.Y", strtotime($rechtliches_datum)));
                     //Unterschrift E-Leitung/GF
 
                     $pdf->text(120,230,$rechtliches_textfield_unterschrift);

@@ -51,7 +51,7 @@
             padless>
             <v-row justify="center" no-gutters>
                 <v-col class="py-4 text-center" cols="12">
-                    © DRK Ortsverein Villingen e.V. <!--2021 - --> {{ new Date().getFullYear() }}
+                    © DRK Ortsverein Villingen e.V. by <!--2021 - --> {{ new Date().getFullYear() }} <a href="https://felixruby.de" target="_blank">Felix Ruby</a>
                 </v-col>
             </v-row>
         </v-footer>

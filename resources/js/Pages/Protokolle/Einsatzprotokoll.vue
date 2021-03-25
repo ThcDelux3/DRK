@@ -404,12 +404,20 @@
 
                     <v-sheet outlined rounded>
                         <v-container>
-                            <v-text-field
+                            <v-here-geocoder-autocomplete
+                                :here-api-key="this.here_api_key"
                                 v-model="form.einsatz_textfield_einsatzort"
+                                debounce-time
+                                clearable
+                                lang="DEU"
+                                in="countryCode:DEU"
+                                :limit="3"
+                                at="48.0594021,8.4640869"
+                                hide-no-data
+                                @input="form.einsatz_textfield_einsatzort = form.einsatz_textfield_einsatzort.address.label"
                                 label="Einsatzort"
-                                prepend-inner-icon="mdi-map-marker"
                                 :rules="required"
-                            ></v-text-field>
+                            />
                         </v-container>
                     </v-sheet>
 
@@ -2652,13 +2660,20 @@
                         <v-container>
                             <v-row>
                                 <v-col>
-                                    <v-text-field
+                                    <v-here-geocoder-autocomplete
+                                        :here-api-key="this.here_api_key"
                                         v-model="form.rechtliches_textfield_ort"
+                                        debounce-time
+                                        clearable
+                                        lang="DEU"
+                                        in="countryCode:DEU"
+                                        :limit="3"
+                                        at="48.0594021,8.4640869"
+                                        hide-no-data
+                                        @input="form.rechtliches_textfield_ort = form.rechtliches_textfield_ort.address.label"
                                         label="Ort"
-                                        prepend-inner-icon="mdi-map-marker"
                                         :rules="required"
-                                    >
-                                    </v-text-field>
+                                    />
                                 </v-col>
 
                                 <v-col>
@@ -2737,6 +2752,7 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout'
 import Autocomplete from "@/Components/Autocomplete";
+import VHereGeocoderAutocomplete from "vuetify-here-geocoder-autocomplete";
 
 export default {
 
@@ -2753,6 +2769,8 @@ export default {
 
     data() {
         return {
+
+            here_api_key: "8_SJRN9OlhShOI0gwA6nSKiQwZfxjp37Br_Whv9Hzvk",
 
             einsatz_datum_menu: false,
             einsatz_beginn_menu: false,
@@ -3019,6 +3037,7 @@ export default {
     components: {
         AppLayout,
         Autocomplete,
+        VHereGeocoderAutocomplete
     },
 
 
