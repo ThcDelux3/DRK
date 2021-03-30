@@ -39,10 +39,10 @@
                     Dashboard
                 </inertia-link>
 
-                <inertia-link :active="route().current('sanlager')" :href="route('sanlager')" as="v-btn"
+                <inertia-link :active="route().current('lager')" :href="route('lager')" as="v-btn"
                               class="text-capitalize d-none d-sm-flex"
                               text>
-                    Sanlager
+                    Lager
                 </inertia-link>
 
                 <inertia-link :active="route().current('protokolle')" :href="route('protokolle')" as="v-btn"
@@ -190,11 +190,11 @@
                         <v-list-item-title>Dashboard</v-list-item-title>
                     </inertia-link>
 
-                    <inertia-link :active="route().current('sanlager')" :href="route('sanlager')" as="v-list-item">
+                    <inertia-link :active="route().current('lager')" :href="route('lager')" as="v-list-item">
                         <v-list-item-icon>
                             <v-icon>mdi-view-column-outline</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-title>Sanlager</v-list-item-title>
+                        <v-list-item-title>Lager</v-list-item-title>
                     </inertia-link>
 
                     <inertia-link :active="route().current('protokolle')" :href="route('protokolle')" as="v-list-item">

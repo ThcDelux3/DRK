@@ -33,6 +33,7 @@ class User extends Authenticatable
         'personalnummer',
         'organisation',
         'geburtsdatum',
+        'qualifikation',
     ];
 
     /**

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Fahrzeuge extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'funkrufname',
+        'kennzeichen',
+        'fahrzeugart',
+    ];
+
 }
