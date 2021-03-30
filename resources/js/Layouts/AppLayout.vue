@@ -51,6 +51,18 @@
                     Protokolle
                 </inertia-link>
 
+                <inertia-link :active="route().current('helfer')" :href="route('helfer')" as="v-btn"
+                              class="text-capitalize d-none d-sm-flex"
+                              text>
+                    Helfer
+                </inertia-link>
+
+                <inertia-link :active="route().current('fahrzeuge')" :href="route('fahrzeuge')" as="v-btn"
+                              class="text-capitalize d-none d-sm-flex"
+                              text>
+                    Fahrzeuge
+                </inertia-link>
+
                 <v-spacer></v-spacer>
 
                 <!-- Teams Dropdown -->
@@ -191,6 +203,21 @@
                         </v-list-item-icon>
                         <v-list-item-title>Protokolle</v-list-item-title>
                     </inertia-link>
+
+                    <inertia-link :active="route().current('helfer')" :href="route('helfer')" as="v-list-item">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Helfer</v-list-item-title>
+                    </inertia-link>
+
+                    <inertia-link :active="route().current('fahrzeuge')" :href="route('fahrzeuge')" as="v-list-item">
+                        <v-list-item-icon>
+                            <v-icon>mdi-car</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Fahrzeuge</v-list-item-title>
+                    </inertia-link>
+
 
                     <!-- API Management -->
                     <inertia-link v-if="$page.props.jetstream.hasApiFeatures"

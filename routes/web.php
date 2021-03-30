@@ -54,6 +54,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('search', [AutoCompleteController::class, 'index'])->name('autocomplete');
 
+    //Helfer
+    Route::get('/helfer', function (){
+        return Inertia::render('Helfer/Show');
+    })->name('helfer');
+
+    //Fahrzeuge
+    Route::get('/fahrzeuge', function (){
+        return Inertia::render('Fahrzeuge/Show');
+    })->name('fahrzeuge');
+
+
 
 });
 

@@ -36,7 +36,7 @@
             <v-text-field
                 label="Vorname"
                 type="text"
-                outlined autocomplete="vorname"
+                outlined autocomplete="given-name"
                  v-model="form.vorname"
                 :error-messages="form.errors.vorname"></v-text-field>
 
@@ -44,7 +44,7 @@
             <v-text-field
                 label="Nachname"
                 type="text"
-                outlined autocomplete="nachname"
+                outlined autocomplete="family-name"
                 v-model="form.nachname"
                 :error-messages="form.errors.nachname"></v-text-field>
 
@@ -71,14 +71,14 @@
             <v-text-field
                 label="Email"
                 type="email"
-                outlined
+                outlined autocomplete="email"
                 v-model="form.email"
                 :error-messages="form.errors.email"></v-text-field>
 
             <!-- Geburtsdatum -->
             <v-text-field
                 label="Geburtsdatum"
-                type="text"
+                type="date"
                 outlined autocomplete="bday"
                 v-model="form.geburtsdatum"
                 :error-messages="form.errors.geburtsdatum"></v-text-field>
