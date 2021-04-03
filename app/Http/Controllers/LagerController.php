@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lager;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -108,20 +111,21 @@ class LagerController extends Controller
 
     public function NotfallZugriff(Request $request) {
 
-        $personal_nummer = $request->get('personalnummer');
+        $personal_nummer = Auth::user()->personalnummer;
 
         if (User::where('personalnummer', '=', $personal_nummer)->exists()) {
-            // Personalnummer exsistiert
 
-
-            //TODO Insert User in DB Notfallzugriff
+            DB::table('notfallzugriff')->insert(
+                array(
+                    'userId'     =>  Auth::user()->id,
+                    'created_at'   =>   date('Y-m-d H:i:s'),
+                )
+            );
 
             return Inertia::render('Lager/showcode');
         } else {
-            echo 'User not found!';
+            return Inertia::render('Lager');
         }
-
     }
-
 
 }

@@ -18,8 +18,5 @@
 <script>
 export default {
     props: ['terms'],
-
-    components: {
-    },
 }
 </script>

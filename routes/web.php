@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AutocompleteController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FahrzeugeController;
 use App\Http\Controllers\HelferController;
 use App\Http\Controllers\LagerController;
+use App\Http\Controllers\NotfallzugriffController;
 use App\Http\Controllers\ProtokolleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -29,13 +31,18 @@ Route::get('/', function () {
     ]);
 });
 
+
+//Login mit Personalausweiß
+Route::get('/ausweisslogin', [NotfallzugriffController::class, 'index'])->name('ausweisslogin');
+Route::post('/ausweisslogin/personalnummer', [NotfallzugriffController::class, 'checkPersonalnummer'])->name('ausweisslogin.checkpersonalnummer');
+Route::post('/ausweisslogin/pin', [NotfallzugriffController::class, 'checkPin'])->name('ausweisslogin.checkpin');
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/dashboard', function (){
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+
+    //Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //Lager
-
     Route::get('/lager', [LagerController::class, 'index'])->name('lager');
 
     Route::get('/lager/create', [LagerController::class, 'create'])->name('lager.create');
@@ -48,13 +55,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::delete('/lager/{lager}', [LagerController::class, 'destroy'])->name('lager.destroy');
 
-    Route::get('/sanlager/notfallzugriff', function (){
-        return Inertia::render('Lager/Notfallzugriff');
-    })->name('sanlager.notfallzugriff');
-
-    Route::post('/sanlager/notfallzugriff', [SanlagerController::class, 'NotfallZugriff'])->name('sanlager.notfallzugriff.check.personalnummer');
-
-
+    //Notfallzugriff - Lager
+    Route::get('/lager/notfallzugriff', [LagerController::class, 'NotfallZugriff'])->name('lager.notfallzugriff');
 
     //Protokolle
     Route::get('/protokolle', function (){
@@ -94,7 +96,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('fahrzeuge/{fahrzeuge}', [FahrzeugeController::class, 'destroy'])->name('fahrzeuge.destroy');
 
 });
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');

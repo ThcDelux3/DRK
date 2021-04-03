@@ -6,15 +6,17 @@
             </h2>
         </template>
 
-
         <v-btn class="d-none"></v-btn>
 
         <v-container>
 
-            <v-row>
-                <v-spacer></v-spacer>
+            <v-row justify="space-between">
+                <inertia-link :href="route('lager.notfallzugriff')" as="v-btn" color="error">
+                    Notfallzugriff
+                </inertia-link>
+
                 <inertia-link :href="route('lager.create')" as="v-btn" outlined>
-                    Lager Anlegen
+                    Artikel Anlegen
                 </inertia-link>
             </v-row>
 
@@ -40,25 +42,30 @@
                                 clearable
                             ></v-text-field>
                         </template>
+
                         <template v-slot:item.actions="{ item }">
                             <v-icon
-                                @click="editItem(item)"
+                                @click="editItem(item.id)"
                                 small
                                 class="mr-2"
                             >
                                 mdi-pencil
                             </v-icon>
                             <v-icon
-                                @click="deleteItem(item)"
+                                @click="deleteItem(item.id)"
                                 small
                             >
                                 mdi-delete
                             </v-icon>
                         </template>
+
+                        <template v-slot:item.img="{ item }">
+                            <v-img left width="100px" :src="item.img"></v-img>
+                        </template>
+
                     </v-data-table>
                 </v-col>
             </v-row>
-
 
         </v-container>
 
@@ -83,11 +90,11 @@ export default {
         search: '',
 
         headers: [
+            {text: '', value: 'img', sortable: false},
             {text: 'Name', value: 'name'},
             {text: 'Ablaufdatum', value: 'ablaufdatum'},
             {text: 'Anzahl', value: 'anzahl'},
             {text: 'Schrank', value: 'schrank'},
-            {text: 'Img', value: 'img'},
             {text: 'Actions', value: 'actions', sortable: false },
 
         ]
@@ -103,12 +110,12 @@ export default {
     methods: {
 
         editItem (item) {
-            this.$inertia.get('/lager/'+ item['id'] + ' /edit')
+            this.$inertia.get('/lager/'+ item + '/edit')
         },
 
         deleteItem (item) {
             if (confirm('Möchten Sie diesen Artikel wirklich löschen?')) {
-                this.$inertia.delete(this.route('lager.destroy', item['id']))
+                this.$inertia.delete(this.route('lager.destroy', item))
             }
         },
 

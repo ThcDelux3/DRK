@@ -123,6 +123,7 @@
                     nachname: this.user.nachname,
                     personalnummer: this.user.personalnummer,
                     geburtsdatum: this.user.geburtsdatum,
+                    qualifikation: this.user.qualifikation,
                     email: this.user.email,
                     photo: null,
                 }),

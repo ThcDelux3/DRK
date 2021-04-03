@@ -137,9 +137,6 @@ export default {
         AppLayout,
     },
 
-    props: {
-    },
-
     data() {
         return {
             items_qualifikation: ['EH', 'SanC', 'RH', 'RS', 'RA', 'NFS', 'Arzt', 'NA'],

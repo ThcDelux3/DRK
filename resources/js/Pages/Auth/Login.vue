@@ -24,6 +24,10 @@
                             label="Remember me"
                         ></v-checkbox>
                         <v-btn block color="primary" type="submit" :disabled="form.processing"> Sign In</v-btn>
+                        <br>
+                        <v-divider></v-divider>
+                        <br>
+                        <inertia-link as="v-btn" :href="route('ausweisslogin')" block color="secondary" :disabled="form.processing"> DRK Ausweiß</inertia-link>
 
                     </form>
 
@@ -38,6 +42,7 @@
         </v-container>
         <v-sheet class="" color="gray pulse" width="200px">
         </v-sheet>
+
     </guest-layout>
 </template>
 
@@ -48,7 +53,7 @@ import ValidationErrors from '@/Components/ValidationErrors';
 export default {
     components: {
         GuestLayout,
-        ValidationErrors
+        ValidationErrors,
     },
 
     props: {
@@ -58,12 +63,15 @@ export default {
 
     data() {
         return {
+
+            showP: false,
+
             form: this.$inertia.form({
                 email: '',
                 password: '',
                 remember: false
             }),
-            showP: false,
+
         }
     },
 
@@ -77,7 +85,8 @@ export default {
                 .post(this.route('login'), {
                     onFinish: () => this.form.reset('password'),
                 })
-        }
+        },
+
     }
 }
 </script>

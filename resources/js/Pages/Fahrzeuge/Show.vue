@@ -6,7 +6,6 @@
             </h2>
         </template>
 
-
         <v-btn class="d-none"></v-btn>
 
         <v-container>
@@ -55,6 +54,11 @@
                                 mdi-delete
                             </v-icon>
                         </template>
+
+                        <template v-slot:item.img="{ item }">
+                            <v-img left width="100px" :src="item.img"></v-img>
+                        </template>
+
                     </v-data-table>
                 </v-col>
             </v-row>
@@ -83,6 +87,7 @@ export default {
         search: '',
 
         headers: [
+            {text: '', value: 'img'},
             {text: 'Funkrufname', value: 'funkrufname'},
             {text: 'Kennzeichen', value: 'kennzeichen'},
             {text: 'Fahrzeugart', value: 'fahrzeugart'},
@@ -101,12 +106,12 @@ export default {
     methods: {
 
         editItem (item) {
-            this.$inertia.get('/fahrzeuge/'+ item['id'] + ' /edit')
+            this.$inertia.get('/fahrzeuge/'+ item.id + ' /edit')
         },
 
         deleteItem (item) {
-            if (confirm('Möchten Sie dieses Fahrzeug wirklich löschen?')) {
-                this.$inertia.delete(this.route('fahrzeuge.destroy', item['id']))
+            if (confirm('Möchten Sie das Fahrzeug ' + item.kennzeichen + ' wirklich löschen?')) {
+                this.$inertia.delete(this.route('fahrzeuge.destroy', item.id))
             }
         },
 
