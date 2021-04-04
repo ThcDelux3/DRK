@@ -9,7 +9,7 @@
 
                 <inertia-link href="/" >
                     <v-img
-                        src="img/logo.png"
+                        src="/img/logo.png"
                         max-width="90"
                         contain
                     ></v-img>

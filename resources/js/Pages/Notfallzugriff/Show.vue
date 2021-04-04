@@ -51,8 +51,6 @@ export default {
             data: {
                 personalnummer: '',
             },
-
-            handscanner_personalnummer: '',
         }
     },
 

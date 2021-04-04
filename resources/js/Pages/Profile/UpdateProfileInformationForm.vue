@@ -83,9 +83,17 @@
                 v-model="form.geburtsdatum"
                 :error-messages="form.errors.geburtsdatum"></v-text-field>
 
+            <!-- Pin -->
+            <v-text-field
+                counter
+                maxlength="6"
+                label="Pin"
+                type="number"
+                outlined autocomplete="off"
+                v-model="form.pin"
+                :error-messages="form.errors.pin"></v-text-field>
+
         </template>
-
-
 
         <template #actions>
             <transition
@@ -125,6 +133,7 @@
                     geburtsdatum: this.user.geburtsdatum,
                     qualifikation: this.user.qualifikation,
                     email: this.user.email,
+                    pin: this.user.pin,
                     photo: null,
                 }),
 

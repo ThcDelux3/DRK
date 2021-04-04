@@ -1,7 +1,7 @@
 <template>
     <guest-layout>
-
         <v-container>
+
             <v-card>
 
                 <v-card-title>
@@ -10,26 +10,21 @@
                 </v-card-title>
 
                 <v-card-text>
-
                     <form @submit.prevent="sendPin">
                         <v-text-field
                             v-model="data.pin"
-                            outlined
+                            counter
+                            maxlength="6"
                             label="Pin"
                             type="number"
+                            outlined
+                            autocomplete="off"
                         ></v-text-field>
-
-                        <v-text-field
-                            v-model="data.userid"
-                        >
-
-                        </v-text-field>
-
                     </form>
-
                 </v-card-text>
 
             </v-card>
+
         </v-container>
 
     </guest-layout>
@@ -40,7 +35,7 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 
 export default {
 
-    props: ['user'],
+    props: ['userdata'],
 
     components: {
         GuestLayout,
@@ -50,9 +45,8 @@ export default {
         return {
             data: {
                 pin: '',
-                userid: this.user.id,
+                userid: this.userdata[0].id,
             },
-
         }
     },
 
@@ -63,5 +57,6 @@ export default {
         },
 
     }
+
 }
 </script>

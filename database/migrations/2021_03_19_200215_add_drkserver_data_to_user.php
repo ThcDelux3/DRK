@@ -21,7 +21,7 @@ class AddDrkserverDataToUser extends Migration
             $table->string('personalnummer')->nullable();
             $table->date('geburtsdatum')->nullable();
             $table->string('qualifiaktion')->nullable();
-            $table->integer('pin')->nullable();
+            $table->string('pin', 6)->nullable();
         });
     }
 
@@ -41,7 +41,6 @@ class AddDrkserverDataToUser extends Migration
             $table->dropColumn('qualifiaktion');
             $table->dropColumn('pin');
             $table->string('name');
-
         });
     }
 }

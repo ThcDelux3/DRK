@@ -24,6 +24,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'image', 'max:1024'],
             'geburtsdatum' => ['required', 'date', 'before:now'],
+            'pin' => ['required', 'integer', 'digits:6'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
@@ -39,6 +40,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'nachname' => $input['nachname'],
                 'email' => $input['email'],
                 'geburtsdatum' => $input['geburtsdatum'],
+                'pin' => $input['pin'],
             ])->save();
         }
     }
@@ -58,6 +60,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'email' => $input['email'],
             'email_verified_at' => null,
             'geburtsdatum' => $input['geburtsdatum'],
+            'pin' => $input['pin'],
         ])->save();
 
         $user->sendEmailVerificationNotification();

@@ -34,6 +34,7 @@ class User extends Authenticatable
         'organisation',
         'geburtsdatum',
         'qualifikation',
+        'pin',
     ];
 
     /**
