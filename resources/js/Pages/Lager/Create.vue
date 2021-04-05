@@ -20,6 +20,28 @@
 
                         <v-card-text>
 
+                            <!-- Profile Photo -->
+                            <div class="mb-4" v-if="$page.props.jetstream.managesProfilePhotos">
+                                <!-- Profile Photo File Input -->
+                                <input type="file" style="display: none;"
+                                       ref="photo"
+                                       @change="updatePhotoPreview">
+
+                                <!-- New Profile Photo Preview -->
+                                <v-avatar size="80">
+                                    <img :src="photoPreview" v-if="photoPreview">
+                                    <img :src="form.img" :alt="form.name" v-else>
+
+                                </v-avatar>
+
+                                <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
+                                    Wählen Sie ein neues Foto                            </v-btn>
+                                <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.img">
+                                    Foto entfernen
+                                </v-btn>
+
+                            </div>
+
                             <v-row>
                                 <v-col>
                                     <v-text-field
@@ -71,28 +93,6 @@
                                 </v-col>
                             </v-row>
 
-                            <!-- Profile Photo -->
-                            <div class="mb-4">
-                                <!-- Profile Photo File Input -->
-                                <input type="file" style="display: none;"
-                                       ref="photo"
-                                       @change="updatePhotoPreview">
-
-                                <!-- New Profile Photo Preview -->
-                                <v-avatar size="80">
-                                    <img :src="photoPreview" v-if="photoPreview">
-                                    <img :src="form.photo" :alt="form.name" v-else>
-                                </v-avatar>
-
-                                <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
-                                    Wählen Sie ein neues Foto
-                                </v-btn>
-                                <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.photo">
-                                    Foto entfernen
-                                </v-btn>
-
-                            </div>
-
                         </v-card-text>
 
                         <v-card-actions>
@@ -131,8 +131,7 @@ export default {
 
             photoPreview: null,
 
-
-            form:  this.$inertia.form({
+            form: this.$inertia.form({
                 name: '',
                 ablaufdatum: '',
                 anzahl: '',
@@ -162,10 +161,11 @@ export default {
         },
 
 
-        updatePhotoPreview() {
-            const reader = new FileReader();
+        updatePhotoPreview(e) {
 
-            this.form.photo = this.$refs.photo.files[0]
+            this.form.img = e.target.files[0]
+
+            const reader = new FileReader();
 
             reader.onload = (e) => {
                 this.photoPreview = e.target.result;
@@ -175,8 +175,7 @@ export default {
         },
 
         deletePhoto() {
-            this.photo = null;
-            this.photoPreview = null;
+            // ToDo Funktion erstellen
         },
 
 

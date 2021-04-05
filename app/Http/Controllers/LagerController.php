@@ -101,25 +101,38 @@ class LagerController extends Controller
     public function update(Request $request, Lager $lager)
     {
 
-        dd($request);
+        $request->validate([
+            'name' => ['required', 'max:50'],
+            'ablaufdatum' => ['required', 'max:50',],
+            'anzahl' => ['required', 'max:50'],
+            'schrank' => ['required', 'max:50'],
+            'img' => ['nullable', 'image']
+        ]);
 
-
-
-
-        if($request['photo']) {
-            $logo = $request['photo'];
+        if($request['img']) {
+            $logo = $request['img'];
             $img_name = time() . '_'. $logo->getClientOriginalName();
             Storage::disk('public')->put($img_name, File::get($logo));
-        }
+            $img_path = '/storage' . '/' . $img_name;
 
-        $img_path = '/storage' . '/' . $img_name;
+            if ($img_path != null) {
+                //delete image before deleting db entry
+                $path_to_img = str_replace("storage", "public", $lager->img);
+
+                if(Storage::exists($path_to_img)){
+                    Storage::delete($path_to_img);
+                }
+
+            }
+
+        }
 
         $lager->update([
                 'name' => $request['name'],
                 'ablaufdatum' => $request['ablaufdatum'],
                 'anzahl' => $request['anzahl'],
                 'schrank' => $request['schrank'],
-                'img' => $request->file($img_path) ? $request->file($img_path)->store('public', 'public') : null,
+                'img' => $request->file('img') ? $img_path : null,
             ]);
 
         return Redirect::route('lager')->with('success', 'Artikel erfolgreich aktualisiert.');

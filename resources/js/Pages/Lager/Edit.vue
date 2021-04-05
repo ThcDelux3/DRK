@@ -16,6 +16,29 @@
 
                     <v-card-text>
 
+                        <!-- Profile Photo -->
+                        <div class="mb-4" v-if="$page.props.jetstream.managesProfilePhotos">
+                            <!-- Profile Photo File Input -->
+                            <input type="file" style="display: none;"
+                                   ref="photo"
+                                   @change="updatePhotoPreview">
+
+                            <!-- New Profile Photo Preview -->
+                            <v-avatar size="80">
+                                <img :src="photoPreview" v-if="photoPreview">
+                                <img :src="form.img" :alt="form.name" v-else>
+
+                            </v-avatar>
+
+                            <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
+                                Wählen Sie ein neues Foto                            </v-btn>
+                            <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.img">
+                                Foto entfernen
+                            </v-btn>
+
+                        </div>
+
+
                         <v-row>
                             <v-col>
                                 <v-text-field
@@ -66,22 +89,6 @@
                             </v-col>
                         </v-row>
 
-
-                        <!-- Profile Photo -->
-                        <div class="mb-4">
-                            <!-- Profile Photo File Input -->
-                            <input type="file" style="display: none;"
-                                   ref="photo"
-                                   @change="updatePhotoPreview">
-
-
-                            <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
-                                Select A New Photo
-                            </v-btn>
-
-                        </div>
-
-
                     </v-card-text>
 
                     <v-card-actions>
@@ -126,7 +133,6 @@ export default {
                 anzahl: this.lager.anzahl,
                 schrank: this.lager.schrank,
                 img: this.lager.img,
-                photo: null,
             },
         }
     },
@@ -135,10 +141,6 @@ export default {
 
         submit() {
 
-            if (this.$refs.photo) {
-                this.form.photo = this.$refs.photo.files[0]
-            }
-
             this.$inertia.post(this.route('lager.update', this.lager.id), this.form, {
                 onStart: () => this.sending = true,
                 onFinish: () => this.sending = false,
@@ -146,28 +148,31 @@ export default {
             })
         },
 
-        selectNewPhoto() {
-            this.$refs.photo.click();
-        },
-
-
-        updatePhotoPreview(e) {
-
-            this.form.photo = e.target.files[0]
-
-        },
-
-        deletePhoto() {
-            this.$inertia.delete(route('current-user-photo.destroy'), {
-                preserveScroll: true,
-                onSuccess: () => (this.photoPreview = null),
-            });
-        },
-
         destroy() {
             if (confirm('Möchten Sie diesen Artikel wirklich löschen?')) {
                 this.$inertia.delete(this.route('lager.destroy', this.lager.id))
             }
+        },
+
+        selectNewPhoto() {
+            this.$refs.photo.click();
+        },
+
+        updatePhotoPreview(e) {
+
+            this.form.img = e.target.files[0]
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                this.photoPreview = e.target.result;
+            };
+
+            reader.readAsDataURL(this.$refs.photo.files[0]);
+        },
+
+        deletePhoto() {
+            // ToDo Funktion erstellen
         },
 
     },

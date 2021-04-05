@@ -16,6 +16,29 @@
 
                     <v-card-text>
 
+                        <!-- Profile Photo -->
+                        <div class="mb-4" v-if="$page.props.jetstream.managesProfilePhotos">
+                            <!-- Profile Photo File Input -->
+                            <input type="file" style="display: none;"
+                                   ref="photo"
+                                   @change="updatePhotoPreview">
+
+                            <!-- New Profile Photo Preview -->
+                            <v-avatar size="80">
+                                <img :src="photoPreview" v-if="photoPreview">
+                                <img :src="form.img" :alt="form.name" v-else>
+
+                            </v-avatar>
+
+                            <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
+                                Wählen Sie ein neues Foto                            </v-btn>
+                            <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.img">
+                                Foto entfernen
+                            </v-btn>
+
+                        </div>
+
+
                         <v-row>
                             <v-col>
                                 <v-text-field
@@ -48,17 +71,6 @@
                                     :error-messages="errors.fahrzeugart"
                                     hide-details="auto"
                                     label="Fahrzeugart"
-                                    outlined
-                                    required
-                                    type="text"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col>
-                                <v-text-field
-                                    v-model="form.img"
-                                    :error-messages="errors.img"
-                                    hide-details="auto"
-                                    label="Img"
                                     outlined
                                     required
                                     type="text"
@@ -101,12 +113,13 @@ export default {
     data() {
         return {
             sending: false,
+            photoPreview: null,
+
             form: {
                 funkrufname: this.fahrzeuge.funkrufname,
                 kennzeichen: this.fahrzeuge.kennzeichen,
                 fahrzeugart: this.fahrzeuge.fahrzeugart,
                 img: this.fahrzeuge.img,
-
             },
         }
     },
@@ -124,6 +137,28 @@ export default {
             if (confirm('Möchten Sie dieses Fahrzeug wirklich löschen?')) {
                 this.$inertia.delete(this.route('fahrzeuge.destroy', this.fahrzeuge.id))
             }
+        },
+
+        selectNewPhoto() {
+            this.$refs.photo.click();
+        },
+
+
+        updatePhotoPreview(e) {
+
+            this.form.img = e.target.files[0]
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                this.photoPreview = e.target.result;
+            };
+
+            reader.readAsDataURL(this.$refs.photo.files[0]);
+        },
+
+        deletePhoto() {
+            // ToDo Funktion erstellen
         },
 
 
