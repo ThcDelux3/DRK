@@ -100,9 +100,6 @@ export default {
         ]
     }),
 
-
-    watch: {},
-
     computed: {
 
     },

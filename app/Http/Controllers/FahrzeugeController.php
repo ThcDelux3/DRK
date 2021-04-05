@@ -34,7 +34,7 @@ class FahrzeugeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -43,6 +43,7 @@ class FahrzeugeController extends Controller
                 'funkrufname' => ['required', 'max:50'],
                 'kennzeichen' => ['required', 'max:50', 'unique:fahrzeuges'],
                 'fahrzeugart' => ['required', 'max:50'],
+                'img' => ['required'],
             ])
         );
 
@@ -63,6 +64,7 @@ class FahrzeugeController extends Controller
                 'funkrufname' => $fahrzeuge->funkrufname,
                 'kennzeichen' => $fahrzeuge->kennzeichen,
                 'fahrzeugart' => $fahrzeuge->fahrzeugart,
+                'img' => $fahrzeuge->img,
             ],
         ]);
     }
@@ -81,7 +83,7 @@ class FahrzeugeController extends Controller
                 'funkrufname' => ['required', 'max:50'],
                 'kennzeichen' => ['required', 'max:50'],
                 'fahrzeugart' => ['required', 'max:50'],
-
+                'img' => ['required'],
             ])
         );
 

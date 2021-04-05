@@ -25,6 +25,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.vorname"
+                                        :error-messages="errors.vorname"
                                         hide-details="auto"
                                         label="Vorname"
                                         outlined
@@ -35,6 +36,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.nachname"
+                                        :error-messages="errors.nachname"
                                         hide-details="auto"
                                         label="Nachname"
                                         outlined
@@ -48,6 +50,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.email"
+                                        :error-messages="errors.email"
                                         hide-details="auto"
                                         label="Email"
                                         outlined
@@ -57,6 +60,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.geburtsdatum"
+                                        :error-messages="errors.geburtsdatum"
                                         hide-details="auto"
                                         label="Geburtsdatum"
                                         outlined
@@ -70,6 +74,7 @@
                                 <v-col>
                                     <v-select
                                         v-model="form.qualifikation"
+                                        :error-messages="errors.qualifikation"
                                         :items="items_qualifikation"
                                         label="Qualifikation"
                                         required
@@ -80,6 +85,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.personalnummer"
+                                        :error-messages="errors.personalnummer"
                                         hide-details="auto"
                                         label="Personalnummer"
                                         outlined
@@ -93,6 +99,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.password"
+                                        :error-messages="errors.password"
                                         hide-details="auto"
                                         label="Passwort"
                                         outlined
@@ -104,6 +111,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.organisation"
+                                        :error-messages="errors.organisation"
                                         hide-details="auto"
                                         label="Organisation"
                                         outlined
@@ -135,6 +143,10 @@ import AppLayout from '@/Layouts/AppLayout'
 export default {
     components: {
         AppLayout,
+    },
+
+    props: {
+        errors: Object,
     },
 
     data() {

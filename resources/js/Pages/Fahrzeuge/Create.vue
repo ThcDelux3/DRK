@@ -24,6 +24,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.funkrufname"
+                                        :error-messages="errors.funkrufname"
                                         hide-details="auto"
                                         label="Funkrufname"
                                         outlined
@@ -34,6 +35,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.kennzeichen"
+                                        :error-messages="errors.kennzeichen"
                                         hide-details="auto"
                                         label="Kennzeichen"
                                         outlined
@@ -47,8 +49,20 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.fahrzeugart"
+                                        :error-messages="errors.fahrzeugart"
                                         hide-details="auto"
                                         label="Fahrzeugart"
+                                        outlined
+                                        required
+                                        type="text"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="form.img"
+                                        :error-messages="errors.img"
+                                        hide-details="auto"
+                                        label="Img"
                                         outlined
                                         required
                                         type="text"
@@ -82,6 +96,7 @@ export default {
     },
 
     props: {
+        errors: Object,
     },
 
     data() {
@@ -90,6 +105,7 @@ export default {
                 funkrufnamen: '',
                 kennzeichen: '',
                 fahrzeugart: '',
+                img: '',
             }),
         }
     },

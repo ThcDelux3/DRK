@@ -55,7 +55,7 @@
                 :items-per-page="5"
                 class="elevation-1"
                 sort-by="zugriffszeit"
-                sort-desc="true"
+                :sort-desc="true"
             ></v-data-table>
         </v-container>
     </app-layout>

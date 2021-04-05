@@ -18,6 +18,7 @@ class CreateFahrzeugesTable extends Migration
             $table->string('funkrufname');
             $table->string('kennzeichen');
             $table->string('fahrzeugart');
+            $table->text('img')->nullable();
             $table->timestamps();
         });
     }

@@ -87,11 +87,11 @@ export default {
         search: '',
 
         headers: [
-            {text: '', value: 'img'},
+            {text: '', value: 'img', sortable: false},
             {text: 'Funkrufname', value: 'funkrufname'},
             {text: 'Kennzeichen', value: 'kennzeichen'},
             {text: 'Fahrzeugart', value: 'fahrzeugart'},
-            {text: 'Actions', value: 'actions', sortable: false },
+            {text: 'Actions', value: 'actions', sortable: false},
 
         ]
     }),

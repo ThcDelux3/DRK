@@ -20,6 +20,7 @@
                             <v-col>
                                 <v-text-field
                                     v-model="form.name"
+                                    :error-messages="errors.name"
                                     hide-details="auto"
                                     label="Name"
                                     outlined
@@ -30,6 +31,7 @@
                             <v-col>
                                 <v-text-field
                                     v-model="form.ablaufdatum"
+                                    :error-messages="errors.ablaufdatum"
                                     hide-details="auto"
                                     label="Ablaufdatum"
                                     outlined
@@ -43,6 +45,7 @@
                             <v-col>
                                 <v-text-field
                                     v-model="form.anzahl"
+                                    :error-messages="errors.anzahl"
                                     hide-details="auto"
                                     label="Anzahl"
                                     outlined
@@ -53,6 +56,7 @@
                             <v-col>
                                 <v-text-field
                                     v-model="form.schrank"
+                                    :error-messages="errors.schrank"
                                     hide-details="auto"
                                     label="Schrank"
                                     outlined
@@ -63,16 +67,30 @@
                         </v-row>
 
                         <v-row>
-                            <v-col>
-                                <v-text-field
-                                    v-model="form.img"
-                                    hide-details="auto"
-                                    label="Img"
-                                    outlined
-                                    required
-                                    type="text"
-                                ></v-text-field>
-                            </v-col>
+
+                            <!-- Profile Photo -->
+                            <div class="mb-4">
+                                <!-- Profile Photo File Input -->
+                                <input type="file" style="display: none;"
+                                       ref="photo"
+                                       @change="updatePhotoPreview">
+
+                                <!-- New Profile Photo Preview -->
+                                <v-avatar size="80">
+                                    <img :src="photoPreview" v-if="photoPreview">
+                                    <img :src="form.photo" :alt="form.name" v-else>
+
+                                </v-avatar>
+
+                                <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
+                                    Wählen Sie ein neues Foto
+                                </v-btn>
+                                <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.img">
+                                    Foto entfernen
+                                </v-btn>
+
+                            </div>
+
                         </v-row>
 
                     </v-card-text>
@@ -110,12 +128,14 @@ export default {
     data() {
         return {
             sending: false,
+            photoPreview: null,
+
             form: {
                 name: this.lager.name,
                 ablaufdatum: this.lager.ablaufdatum,
                 anzahl: this.lager.anzahl,
                 schrank: this.lager.schrank,
-                img: this.lager.img,
+                photo: null,
 
             },
         }
@@ -134,6 +154,28 @@ export default {
             if (confirm('Möchten Sie diesen Artikel wirklich löschen?')) {
                 this.$inertia.delete(this.route('lager.destroy', this.lager.id))
             }
+        },
+
+
+        selectNewPhoto() {
+            this.$refs.photo.click();
+        },
+
+        updatePhotoPreview() {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                this.photoPreview = e.target.result;
+            };
+
+            reader.readAsDataURL(this.$refs.photo.files[0]);
+        },
+
+        deletePhoto() {
+            this.$inertia.delete(route('current-user-photo.destroy'), {
+                preserveScroll: true,
+                onSuccess: () => (this.photoPreview = null),
+            });
         },
 
 

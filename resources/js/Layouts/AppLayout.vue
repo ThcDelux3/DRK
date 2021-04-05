@@ -138,10 +138,10 @@
                         </v-btn>
                     </template>
                     <v-list dense>
-                        <v-subheader>Manage Account</v-subheader>
+                        <v-subheader>Konto verwalten</v-subheader>
                         <inertia-link :href="route('profile.show')" as="v-list-item"
                                       class="v-list-item">
-                            Profile
+                            Profil
                         </inertia-link>
                         <inertia-link v-if="$page.props.jetstream.hasApiFeatures"
                                       :href="route('api-tokens.index')" as="v-list-item">
@@ -150,7 +150,7 @@
                         <v-divider/>
                         <!-- Authentication -->
                         <v-list-item @click.prevent="logout">
-                            Logout
+                            Abmelden
                         </v-list-item>
                     </v-list>
                 </v-menu>
@@ -158,6 +158,33 @@
 
 
         </v-app-bar>
+
+
+
+        <!-- Flash message -->
+        <v-snackbar
+            v-if="$page.props.flash.success != null"
+            top
+            right
+            v-model="snackbar"
+            :multi-line="true"
+            :timeout="1500"
+            color="success"
+        >
+            {{ $page.props.flash.success }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="black"
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
+
 
         <!-- Responsive Navigation Menu -->
         <v-navigation-drawer
@@ -266,22 +293,22 @@
                         <v-divider/>
                     </template>
 
-                    <v-subheader v-if="mini">AC</v-subheader>
-                    <v-subheader v-else>Account</v-subheader>
+                    <v-subheader v-if="mini">Konto</v-subheader>
+                    <v-subheader v-else>Konto</v-subheader>
 
                     <inertia-link :active="route().current('profile.show')" :href="route('profile.show')"
                                   as="v-list-item">
                         <v-list-item-icon>
                             <v-icon>mdi-account</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-title>Profile</v-list-item-title>
+                        <v-list-item-title>Profil</v-list-item-title>
                     </inertia-link>
 
                     <v-list-item @click.prevent="logout">
                         <v-list-item-icon>
                             <v-icon>mdi-exit-run</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-title>Logout</v-list-item-title>
+                        <v-list-item-title>Abmelden</v-list-item-title>
                     </v-list-item>
                 </v-list-item-group>
 
@@ -305,7 +332,10 @@
                 </header>
                 <slot/>
             </v-container>
+
         </v-main>
+
+
 
     </v-app>
 </template>
@@ -314,10 +344,13 @@
 <script>
 
 export default {
-    components: {},
+
+    components: {
+    },
 
     data() {
         return {
+            snackbar: true,
             drawer: false,
             mini: false,
             showingNavigationDropdown: true,

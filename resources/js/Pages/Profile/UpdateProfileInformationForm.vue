@@ -19,7 +19,7 @@
                 <!-- New Profile Photo Preview -->
                 <v-avatar size="80">
                     <img :src="photoPreview" v-if="photoPreview">
-                    <img :src="user.profile_photo_url" :alt="user.name" v-else>
+                    <img :src="user.profile_photo_url" :alt="user.vorname + ' ' + user.nachname" v-else>
 
                 </v-avatar>
 

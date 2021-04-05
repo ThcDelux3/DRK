@@ -24,6 +24,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.name"
+                                        :error-messages="errors.name"
                                         hide-details="auto"
                                         label="Name"
                                         outlined
@@ -34,6 +35,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.ablaufdatum"
+                                        :error-messages="errors.ablaufdatum"
                                         hide-details="auto"
                                         label="Ablaufdatum"
                                         outlined
@@ -47,6 +49,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.anzahl"
+                                        :error-messages="errors.anzahl"
                                         hide-details="auto"
                                         label="Anzahl"
                                         outlined
@@ -58,6 +61,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.schrank"
+                                        :error-messages="errors.schrank"
                                         hide-details="auto"
                                         label="Schrank"
                                         outlined
@@ -71,6 +75,7 @@
                                 <v-col>
                                     <v-text-field
                                         v-model="form.img"
+                                        :error-messages="errors.img"
                                         hide-details="auto"
                                         label="Img"
                                         outlined
@@ -103,6 +108,10 @@ import AppLayout from '@/Layouts/AppLayout'
 export default {
     components: {
         AppLayout,
+    },
+
+    props: {
+        errors: Object,
     },
 
     data() {

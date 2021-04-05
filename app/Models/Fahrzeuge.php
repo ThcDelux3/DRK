@@ -13,6 +13,7 @@ class Fahrzeuge extends Model
         'funkrufname',
         'kennzeichen',
         'fahrzeugart',
+        'img',
     ];
 
 }

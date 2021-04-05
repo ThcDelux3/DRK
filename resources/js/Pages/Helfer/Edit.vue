@@ -26,7 +26,7 @@
                                     outlined
                                     required
                                     type="text"
-                                    :error="errors.vorname"
+                                    :error-messages="errors.vorname"
                                 ></v-text-field>
                             </v-col>
                             <v-col>
@@ -37,7 +37,7 @@
                                     outlined
                                     required
                                     type="text"
-                                    :error="errors.nachname"
+                                    :error-messages="errors.nachname"
                                 ></v-text-field>
                             </v-col>
                         </v-row>
@@ -50,7 +50,7 @@
                                     label="Email"
                                     outlined
                                     type="email"
-                                    :error="errors.email"
+                                    :error-messages="errors.email"
                                 ></v-text-field>
                             </v-col>
                             <v-col>
@@ -61,7 +61,7 @@
                                     outlined
                                     required
                                     type="date"
-                                    :error="errors.geburtsdatum"
+                                    :error-messages="errors.geburtsdatum"
                                 ></v-text-field>
                             </v-col>
 
@@ -71,6 +71,7 @@
                             <v-col>
                                 <v-select
                                     v-model="form.qualifikation"
+                                    :error-messages="errors.qualifikation"
                                     :items="items_qualifikation"
                                     :value="items_qualifikation_value"
                                     label="Qualifikation"
@@ -86,7 +87,7 @@
                                     outlined
                                     required
                                     type="text"
-                                    :error="errors.personalnummer"
+                                    :error-messages="errors.personalnummer"
                                 ></v-text-field>
                             </v-col>
                         </v-row>
@@ -100,7 +101,7 @@
                                     outlined
                                     required
                                     type="text"
-                                    :error="errors.organisation"
+                                    :error-messages="errors.organisation"
                                 ></v-text-field>
                             </v-col>
                         </v-row>
