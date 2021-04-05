@@ -71,19 +71,27 @@
                                 </v-col>
                             </v-row>
 
-                            <v-row>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="form.img"
-                                        :error-messages="errors.img"
-                                        hide-details="auto"
-                                        label="Img"
-                                        outlined
-                                        required
-                                        type="text"
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
+                            <!-- Profile Photo -->
+                            <div class="mb-4">
+                                <!-- Profile Photo File Input -->
+                                <input type="file" style="display: none;"
+                                       ref="photo"
+                                       @change="updatePhotoPreview">
+
+                                <!-- New Profile Photo Preview -->
+                                <v-avatar size="80">
+                                    <img :src="photoPreview" v-if="photoPreview">
+                                    <img :src="form.photo" :alt="form.name" v-else>
+                                </v-avatar>
+
+                                <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
+                                    Wählen Sie ein neues Foto
+                                </v-btn>
+                                <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.photo">
+                                    Foto entfernen
+                                </v-btn>
+
+                            </div>
 
                         </v-card-text>
 
@@ -92,6 +100,9 @@
                             <v-btn text type="submit">Artikel Erstellen</v-btn>
                         </v-card-actions>
                     </v-card>
+
+
+
 
                 </form>
 
@@ -115,13 +126,19 @@ export default {
     },
 
     data() {
+
         return {
+
+            photoPreview: null,
+
+
             form:  this.$inertia.form({
                 name: '',
                 ablaufdatum: '',
                 anzahl: '',
                 schrank: '',
-                img: '',
+                img: null,
+                photo: null,
             }),
         }
     },
@@ -129,11 +146,39 @@ export default {
     methods: {
 
         submit() {
+
+            if (this.$refs.photo) {
+                this.form.photo = this.$refs.photo.files[0]
+            }
+
             this.$inertia.post(this.route('lager.store'), this.form, {
                 onStart: () => this.sending = true,
                 onFinish: () => this.sending = false,
             })
         },
+
+        selectNewPhoto() {
+            this.$refs.photo.click();
+        },
+
+
+        updatePhotoPreview() {
+            const reader = new FileReader();
+
+            this.form.photo = this.$refs.photo.files[0]
+
+            reader.onload = (e) => {
+                this.photoPreview = e.target.result;
+            };
+
+            reader.readAsDataURL(this.$refs.photo.files[0]);
+        },
+
+        deletePhoto() {
+            this.photo = null;
+            this.photoPreview = null;
+        },
+
 
     },
 

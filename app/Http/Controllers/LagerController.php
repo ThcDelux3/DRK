@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Lager;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-
 
 class LagerController extends Controller
 {
@@ -41,15 +42,30 @@ class LagerController extends Controller
      */
     public function store(Request $request)
     {
-        Lager::create(
-            Request::validate([
-                'name' => ['required', 'max:50'],
-                'ablaufdatum' => ['required', 'max:50',],
-                'anzahl' => ['required', 'max:50'],
-                'schrank' => ['required', 'max:50'],
-                'img' => ['required', 'max:50'],
-            ])
-        );
+
+        $request->validate([
+            'name' => ['required', 'max:50'],
+            'ablaufdatum' => ['required', 'max:50',],
+            'anzahl' => ['required', 'max:50'],
+            'schrank' => ['required', 'max:50'],
+            'photo' => ['required', 'image']
+        ]);
+
+        if($request['photo']) {
+            $logo = $request['photo'];
+            $img_name = time() . '_'. $logo->getClientOriginalName();
+            Storage::disk('public')->put($img_name, File::get($logo));
+        }
+
+        $img_path = '/storage' . '/' . $img_name;
+
+        Lager::create([
+            'name' => $request['name'],
+            'ablaufdatum' => $request['ablaufdatum'],
+            'anzahl' => $request['anzahl'],
+            'schrank' => $request['schrank'],
+            'img' => $img_path,
+        ]);
 
         return Redirect::route('lager')->with('success', 'Artikel erfolgreich erstellt.');
     }
@@ -62,6 +78,7 @@ class LagerController extends Controller
      */
     public function edit(Lager $lager)
     {
+
         return Inertia::render('Lager/Edit', [
             'lager' => [
                 'id' => $lager->id,
@@ -83,15 +100,27 @@ class LagerController extends Controller
      */
     public function update(Request $request, Lager $lager)
     {
-        $lager->update(
-            Request::validate([
-                'name' => ['required', 'max:50'],
-                'ablaufdatum' => ['required', 'max:50'],
-                'anzahl' => ['required', 'max:50'],
-                'schrank' => ['required', 'max:50'],
-                'img' => ['required', 'max:50'],
-            ])
-        );
+
+        dd($request);
+
+
+
+
+        if($request['photo']) {
+            $logo = $request['photo'];
+            $img_name = time() . '_'. $logo->getClientOriginalName();
+            Storage::disk('public')->put($img_name, File::get($logo));
+        }
+
+        $img_path = '/storage' . '/' . $img_name;
+
+        $lager->update([
+                'name' => $request['name'],
+                'ablaufdatum' => $request['ablaufdatum'],
+                'anzahl' => $request['anzahl'],
+                'schrank' => $request['schrank'],
+                'img' => $request->file($img_path) ? $request->file($img_path)->store('public', 'public') : null,
+            ]);
 
         return Redirect::route('lager')->with('success', 'Artikel erfolgreich aktualisiert.');
     }
@@ -104,6 +133,15 @@ class LagerController extends Controller
      */
     public function destroy(Lager $lager)
     {
+
+        //delte image before deleting db entry
+        $path_to_img = str_replace("storage", "public", $lager->img);
+
+        if(Storage::exists($path_to_img)){
+            Storage::delete($path_to_img);
+        }
+
+        //deleting db entry
         $lager->delete();
 
         return Redirect::route('lager')->with('success', 'Artikel erfolgreich gelöscht.');

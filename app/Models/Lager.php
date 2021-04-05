@@ -15,6 +15,7 @@ class Lager extends Model
         'anzahl',
         'schrank',
         'img',
+        'photo',
     ];
 
 

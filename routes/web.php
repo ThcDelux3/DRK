@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/lager/{lager}/edit', [LagerController::class, 'edit'])->name('lager.edit');
 
-    Route::put('/lager/{lager}', [LagerController::class, 'update'])->name('lager.update');
+    Route::post('/lager/{lager}', [LagerController::class, 'update'])->name('lager.update');
 
     Route::delete('/lager/{lager}', [LagerController::class, 'destroy'])->name('lager.destroy');
 

@@ -66,32 +66,21 @@
                             </v-col>
                         </v-row>
 
-                        <v-row>
 
-                            <!-- Profile Photo -->
-                            <div class="mb-4">
-                                <!-- Profile Photo File Input -->
-                                <input type="file" style="display: none;"
-                                       ref="photo"
-                                       @change="updatePhotoPreview">
+                        <!-- Profile Photo -->
+                        <div class="mb-4">
+                            <!-- Profile Photo File Input -->
+                            <input type="file" style="display: none;"
+                                   ref="photo"
+                                   @change="updatePhotoPreview">
 
-                                <!-- New Profile Photo Preview -->
-                                <v-avatar size="80">
-                                    <img :src="photoPreview" v-if="photoPreview">
-                                    <img :src="form.photo" :alt="form.name" v-else>
 
-                                </v-avatar>
+                            <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
+                                Select A New Photo
+                            </v-btn>
 
-                                <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
-                                    Wählen Sie ein neues Foto
-                                </v-btn>
-                                <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.img">
-                                    Foto entfernen
-                                </v-btn>
+                        </div>
 
-                            </div>
-
-                        </v-row>
 
                     </v-card-text>
 
@@ -103,6 +92,7 @@
 
                         <v-btn text type="submit">Artikel Aktualisieren</v-btn>
                     </v-card-actions>
+
                 </v-card>
 
             </form>
@@ -135,8 +125,8 @@ export default {
                 ablaufdatum: this.lager.ablaufdatum,
                 anzahl: this.lager.anzahl,
                 schrank: this.lager.schrank,
+                img: this.lager.img,
                 photo: null,
-
             },
         }
     },
@@ -144,31 +134,27 @@ export default {
     methods: {
 
         submit() {
-            this.$inertia.put(this.route('lager.update', this.lager.id), this.form, {
+
+            if (this.$refs.photo) {
+                this.form.photo = this.$refs.photo.files[0]
+            }
+
+            this.$inertia.post(this.route('lager.update', this.lager.id), this.form, {
                 onStart: () => this.sending = true,
                 onFinish: () => this.sending = false,
+                onSuccess: () => this.form.reset("photo"),
             })
         },
-
-        destroy() {
-            if (confirm('Möchten Sie diesen Artikel wirklich löschen?')) {
-                this.$inertia.delete(this.route('lager.destroy', this.lager.id))
-            }
-        },
-
 
         selectNewPhoto() {
             this.$refs.photo.click();
         },
 
-        updatePhotoPreview() {
-            const reader = new FileReader();
 
-            reader.onload = (e) => {
-                this.photoPreview = e.target.result;
-            };
+        updatePhotoPreview(e) {
 
-            reader.readAsDataURL(this.$refs.photo.files[0]);
+            this.form.photo = e.target.files[0]
+
         },
 
         deletePhoto() {
@@ -178,6 +164,11 @@ export default {
             });
         },
 
+        destroy() {
+            if (confirm('Möchten Sie diesen Artikel wirklich löschen?')) {
+                this.$inertia.delete(this.route('lager.destroy', this.lager.id))
+            }
+        },
 
     },
 
