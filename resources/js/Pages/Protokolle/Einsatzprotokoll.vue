@@ -2770,7 +2770,7 @@ export default {
     data() {
         return {
 
-            here_api_key: "8_SJRN9OlhShOI0gwA6nSKiQwZfxjp37Br_Whv9Hzvk",
+            here_api_key: process.env.MIX_HERE_API_KEY,
 
             einsatz_datum_menu: false,
             einsatz_beginn_menu: false,
@@ -3040,7 +3040,6 @@ export default {
         VHereGeocoderAutocomplete
     },
 
-
     methods: {
         submit() {
 
@@ -3067,6 +3066,7 @@ export default {
 
     computed: {
         calc_einheit_textfield_staerke_gesamt: function(){
+
             let calc = Number(this.form.einheit_textfield_staerke_zf_artzt) + Number(this.form.einheit_textfield_staerke_gf) + Number(this.form.einheit_textfield_staerke_helfer);
             this.form.einheit_textfield_staerke_gesamt = calc;
             return calc;
