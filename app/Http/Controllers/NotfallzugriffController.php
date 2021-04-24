@@ -6,8 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class NotfallzugriffController extends Controller
@@ -18,7 +16,6 @@ class NotfallzugriffController extends Controller
         return Inertia::render('Notfallzugriff/Show');
 
     }
-
 
     public function checkPersonalnummer(Request $request) {
 
@@ -37,8 +34,6 @@ class NotfallzugriffController extends Controller
     public function checkPin(Request $request) {
 
         //ToDo add error + Validarion            'pin' => ['required', 'integer', 'digits:6'],
-
-
 
         $pin = $request->input('pin');
         $userid = $request->input('userid');

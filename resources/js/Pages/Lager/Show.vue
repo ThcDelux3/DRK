@@ -43,6 +43,10 @@
                             ></v-text-field>
                         </template>
 
+                        <template v-slot:item.ablaufdatum="{ item }">
+                            <span>{{ new Date(item.ablaufdatum).toLocaleString('DE', options = {year: "numeric", month: "2-digit", day: "numeric"}) }}</span>
+                        </template>
+
                         <template v-slot:item.actions="{ item }">
                             <v-icon
                                 @click="editItem(item.id)"
@@ -94,7 +98,7 @@ export default {
             {text: 'Name', value: 'name'},
             {text: 'Ablaufdatum', value: 'ablaufdatum'},
             {text: 'Anzahl', value: 'anzahl'},
-            {text: 'Schrank', value: 'schrank'},
+            {text: 'Lagerort', value: 'lagerort'},
             {text: 'Actions', value: 'actions', sortable: false },
 
         ]

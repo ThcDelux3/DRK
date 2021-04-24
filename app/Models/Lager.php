@@ -13,7 +13,7 @@ class Lager extends Model
         'name',
         'ablaufdatum',
         'anzahl',
-        'schrank',
+        'lagerort',
         'img',
         'photo',
     ];

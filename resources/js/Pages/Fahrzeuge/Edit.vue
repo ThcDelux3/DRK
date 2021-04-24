@@ -161,7 +161,6 @@ export default {
             // ToDo Funktion erstellen
         },
 
-
     },
 
 }

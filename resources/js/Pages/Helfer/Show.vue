@@ -20,6 +20,11 @@
 
             <v-row>
                 <v-col>
+
+                    <template v-slot:item.img="{ item }">
+                        <v-img left width="100px" :src="item.img"></v-img>
+                    </template>
+
                     <v-data-table
                         :sort-by.sync="sortBy"
                         :headers="headers"
@@ -84,6 +89,7 @@ export default {
         search: '',
 
         headers: [
+            {text: '', value: 'img', sortable: false},
             {text: 'Vorname', value: 'vorname'},
             {text: 'Nachname', value: 'nachname'},
             {text: 'Personalnummer', value: 'personalnummer'},

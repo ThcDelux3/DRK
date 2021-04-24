@@ -1,33 +1,32 @@
 <template>
     <app-action-section>
         <template #title>
-            Two Factor Authentication
+            Zwei-Faktor-Authentifizierung
         </template>
 
         <template #description>
-            Add additional security to your account using two factor authentication.
+            Fügen Sie Ihrem Konto zusätzliche Sicherheit hinzu, indem Sie die Zwei-Faktor-Authentifizierung verwenden.
         </template>
 
         <template #content>
             <h3 class="text-lg font-medium text-gray-900" v-if="twoFactorEnabled">
-                You have enabled two factor authentication.
+                Sie haben die Zwei-Faktor-Authentifizierung aktiviert.
             </h3>
 
             <h3 class="text-lg font-medium text-gray-900" v-else>
-                You have not enabled two factor authentication.
+                Sie haben die Zwei-Faktor-Authentifizierung nicht aktiviert.
             </h3>
 
             <div class="mt-3 max-w-xl text-sm text-gray-600">
                 <p>
-                    When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.
-                </p>
+                    Wenn die Zwei-Faktor-Authentifizierung aktiviert ist, werden Sie während der Authentifizierung zur Eingabe eines sicheren, zufälligen Tokens aufgefordert. Sie können dieses Token aus der Google Authenticator-Anwendung Ihres Telefons abrufen.                </p>
             </div>
 
             <div v-if="twoFactorEnabled">
                 <div v-if="qrCode">
                     <div class="mt-4 max-w-xl text-sm text-gray-600">
                         <p class="font-semibold">
-                            Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application.
+                            Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert. Scannen Sie den folgenden QR-Code mit der Authentifizierungsanwendung Ihres Telefons.
                         </p>
                     </div>
 
@@ -38,7 +37,7 @@
                 <div v-if="recoveryCodes.length > 0">
                     <div class="mt-4">
                         <p class="font-semibold">
-                            Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.
+                            Speichern Sie diese Wiederherstellungscodes in einem sicheren Kennwortmanager. Sie können verwendet werden, um den Zugriff auf Ihr Konto wiederherzustellen, wenn Ihr Zwei-Faktor-Authentifizierungsgerät verloren geht.
                         </p>
                     </div>
 
@@ -63,13 +62,13 @@
                     <app-confirms-password @confirmed="regenerateRecoveryCodes">
                         <v-btn outlined class="mr-3"
                                         v-if="recoveryCodes.length > 0">
-                            Regenerate Recovery Codes
+                            Wiederherstellungscodes neu generieren
                         </v-btn>
                     </app-confirms-password>
 
                     <app-confirms-password @confirmed="showRecoveryCodes">
                         <v-btn outlined class="mr-3" v-if="recoveryCodes.length === 0">
-                            Show Recovery Codes
+                            Wiederherstellungscodes anzeigen
                         </v-btn>
                     </app-confirms-password>
 

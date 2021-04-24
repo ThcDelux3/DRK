@@ -589,47 +589,47 @@
 
                                 <v-col>
 
-                                <v-select
-                                    :items="fahrzeuge"
-                                    item-text="kennzeichen"
-                                    dense
-                                    hide-details
-                                    label="Fahrzeug"
-                                    prepend-inner-icon="mdi-car"
-                                    clearable
-                                >
+                                    <v-select
+                                        :items="fahrzeuge"
+                                        item-text="kennzeichen"
+                                        dense
+                                        hide-details
+                                        label="Fahrzeug"
+                                        prepend-inner-icon="mdi-car"
+                                        clearable
+                                    >
 
-                                    <template v-slot:item="slotProps">
+                                        <template v-slot:item="slotProps">
 
-                                        <v-row align="center" @click="form.fahrzeuge_textfield_1_funkrufname = slotProps.item.funkrufname, form.fahrzeuge_textfield_1_kennzeichen = slotProps.item.kennzeichen, form.fahrzeuge_textfield_1_fahrzeugart= slotProps.item.fahrzeugart">
+                                            <v-row align="center" @click="form.fahrzeuge_textfield_1_funkrufname = slotProps.item.funkrufname, form.fahrzeuge_textfield_1_kennzeichen = slotProps.item.kennzeichen, form.fahrzeuge_textfield_1_fahrzeugart= slotProps.item.fahrzeugart">
 
-                                            <v-col>
-                                                <v-img class="mr-2 mb-2 mt-2"
-                                                       contain
-                                                       max-height="50"
-                                                       max-width="100"
-                                                       src="https://picsum.photos/id/11/500/300">
-                                                </v-img>
-                                            </v-col>
+                                                <v-col>
+                                                    <v-img class="mr-2 mb-2 mt-2"
+                                                           contain
+                                                           max-height="50"
+                                                           max-width="100"
+                                                           src="https://picsum.photos/id/11/500/300">
+                                                    </v-img>
+                                                </v-col>
 
-                                            <v-col>
-                                                <p class="mr-2">{{ slotProps.item.funkrufname }}<p/>
-                                            </v-col>
+                                                <v-col>
+                                                    <p class="mr-2">{{ slotProps.item.funkrufname }}<p/>
+                                                </v-col>
 
-                                            <v-col>
-                                                <p class="mr-2">{{ slotProps.item.kennzeichen }}</p>
-                                            </v-col>
+                                                <v-col>
+                                                    <p class="mr-2">{{ slotProps.item.kennzeichen }}</p>
+                                                </v-col>
 
-                                            <v-col>
-                                                <p>{{ slotProps.item.fahrzeugart }}</p>
+                                                <v-col>
+                                                    <p>{{ slotProps.item.fahrzeugart }}</p>
 
-                                            </v-col>
+                                                </v-col>
 
-                                        </v-row>
+                                            </v-row>
 
-                                    </template>
+                                        </template>
 
-                                </v-select>
+                                    </v-select>
 
                                 </v-col>
 
@@ -753,11 +753,28 @@
                     <v-sheet outlined rounded>
                         <v-container>
                             <v-textarea
+                                @input="checkRows(3)"
+                                maxlength="255"
+                                counter
                                 v-model="form.weitere_materialien_textfield"
                                 label="Weitere Materialien"
                                 prepend-inner-icon="mdi-clipboard-text"
+                                :rules="required"
+                                rows="3"
                             ></v-textarea>
+
+                            <v-alert
+                                class="ml-5 mr-5"
+                                type="warning"
+                                v-if="weitere_materialien_textfield_maxLines"
+                            >
+                                Maximal {{weitere_materialien_textfield_maxLines}} Zeilen! (durch das Formular begrenzt)
+                            </v-alert>
+
                         </v-container>
+
+
+
                     </v-sheet>
                 </v-container>
             </v-sheet>
@@ -771,11 +788,25 @@
                     <v-sheet outlined rounded>
                         <v-container>
                             <v-textarea
+                                @input="checkRows(13)"
+                                maxlength="1080"
+                                counter
                                 v-model="form.kurzbericht_textfield"
                                 label="Kurzbericht"
                                 prepend-inner-icon="mdi-clipboard-text"
                                 :rules="required"
+                                rows="13"
                             ></v-textarea>
+
+                            <v-alert
+                                class="ml-5 mr-5"
+                                type="warning"
+                                v-if="kurzbericht_textfield_maxLines"
+                            >
+                                Maximal {{kurzbericht_textfield_maxLines}} Zeilen! (durch das Formular begrenzt)
+                            </v-alert>
+
+
                         </v-container>
                     </v-sheet>
 
@@ -790,10 +821,25 @@
                     <v-sheet outlined rounded>
                         <v-container>
                             <v-textarea
+                                @input="checkRows(4)"
+                                maxlength="330"
+                                counter
                                 v-model="form.sonstige_hinweise_bemerkungen_ereignisse_textfield"
                                 label="Sonstige Hinweise / Bemerkungen / Ereignisse"
                                 prepend-inner-icon="mdi-clipboard-text"
+                                :rules="required"
+                                rows="4"
                             ></v-textarea>
+
+
+                            <v-alert
+                                class="ml-5 mr-5"
+                                type="warning"
+                                v-if="sonstige_hinweise_bemerkungen_ereignisse_textfield_maxLines"
+                            >
+                                Maximal {{sonstige_hinweise_bemerkungen_ereignisse_textfield_maxLines}} Zeilen! (durch das Formular begrenzt)
+                            </v-alert>
+
                         </v-container>
                     </v-sheet>
                 </v-container>
@@ -916,8 +962,16 @@
                                                 item-text="name"
                                                 item-value="name"
                                             >
+
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_1_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_1_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_1_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_1_bis_time = form.einsatz_ende_time"
+                                                    >
+
                                                         <v-list-item-title v-text="item.vorname + ' ' +item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -1073,7 +1127,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_2_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_2_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_2_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_2_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -1239,7 +1299,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_3_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_3_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_3_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_3_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -1350,7 +1416,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_4_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_4_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_4_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_4_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -1462,7 +1534,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_5_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_5_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_5_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_5_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -1574,7 +1652,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_6_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_6_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_6_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_6_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -1686,7 +1770,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_7_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_7_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_7_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_7_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -1797,7 +1887,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_8_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_8_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_8_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_8_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -1909,7 +2005,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_9_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_9_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_9_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_9_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -2021,7 +2123,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_10_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_10_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_10_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_10_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -2132,7 +2240,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_11_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_11_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_11_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_11_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -2244,7 +2358,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_12_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_12_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_12_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_12_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -2356,7 +2476,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_13_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_13_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_13_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_13_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -2468,7 +2594,13 @@
                                                 item-text="name"
                                             >
                                                 <template v-slot:item="{ item }">
-                                                    <v-list-item-content>
+                                                    <v-list-item-content
+                                                        @click="
+                                                        form.helfer_14_checkbox_qualifikation = item.qualifikation,
+                                                        item.organisation = 'OV Villingen e.V.' ? form.helfer_14_dropdown_ov_kz = 'OV-VL (51)' : '',
+                                                        form.helfer_14_von_time = form.einsatz_abfahrzeit_time,
+                                                        form.helfer_14_bis_time = form.einsatz_ende_time"
+                                                    >
                                                         <v-list-item-title v-text="item.vorname + ' ' + item.nachname"></v-list-item-title>
                                                         <v-list-item-subtitle v-text="item.personalnummer + ' | ' + item.qualifikation"></v-list-item-subtitle>
                                                     </v-list-item-content>
@@ -2873,6 +3005,9 @@ export default {
                 v => !!v || 'Dieses Feld ist erforderlich',
             ],
 
+            weitere_materialien_textfield_maxLines: false,
+            kurzbericht_textfield_maxLines: false,
+            sonstige_hinweise_bemerkungen_ereignisse_textfield_maxLines: false,
 
             form:  this.$inertia.form({
                 einsatz_datum: null,
@@ -3057,9 +3192,25 @@ export default {
             window.open("/test.pdf", "_blank");
         },
 
-        checkboxValue: function(params) {
-            console.log(params);
-            this.helfer_1_name_vorname = params;
+        checkRows(maxLines) {
+            if(this.form.weitere_materialien_textfield.split(/\r\n|\r|\n/).length <= maxLines) {
+                this.weitere_materialien_textfield_maxLines = 0;
+            } else {
+                this.weitere_materialien_textfield_maxLines = maxLines;
+            }
+
+            if(this.form.kurzbericht_textfield.split(/\r\n|\r|\n/).length <= maxLines) {
+                this.kurzbericht_textfield_maxLines = 0;
+            } else {
+                this.kurzbericht_textfield_maxLines = maxLines;
+            }
+
+            if(this.form.sonstige_hinweise_bemerkungen_ereignisse_textfield.split(/\r\n|\r|\n/).length <= maxLines) {
+                this.sonstige_hinweise_bemerkungen_ereignisse_textfield_maxLines = 0;
+            } else {
+                this.sonstige_hinweise_bemerkungen_ereignisse_textfield_maxLines = maxLines;
+            }
+
         }
 
     },

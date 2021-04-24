@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -58,7 +59,7 @@ class HelferController extends Controller
             'geburtsdatum' => Request::get('geburtsdatum'),
             'personalnummer' => Request::get('personalnummer'),
             'qualifikation' => Request::get('qualifikation'),
-            'password' => Request::get('password'),
+            'password' => Hash::make(Request::get('password')),
         ]);
 
         return Redirect::route('helfer')->with('success', 'Helfer erfolgreich erstellt.');
@@ -74,7 +75,7 @@ class HelferController extends Controller
     {
 
         return Inertia::render('Helfer/Edit', [
-            'user' => [
+            'helfer' => [
                 'id' => $user->id,
                 'vorname' => $user->vorname,
                 'nachname' => $user->nachname,
@@ -104,13 +105,13 @@ class HelferController extends Controller
             'geburtsdatum' => ['date'],
             'personalnummer' => ['required'],
             'qualifikation' => ['max:50'],
+            'password' => ['max:50'],
         ]);
-
 
         $user->update(Request::only('vorname', 'nachname', 'email', 'organisation', 'geburtsdatum', 'personalnummer', 'qualifikation'));
 
         if (Request::get('password')) {
-            $user->update(['password' => Request::get('password')]);
+            $user->update(['password' => Hash::make(Request::get('password'))]);
         }
 
         return Redirect::route('helfer')->with('success', 'Helfer erfolgreich aktualisiert.');

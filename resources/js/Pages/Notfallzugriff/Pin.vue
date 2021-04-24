@@ -13,6 +13,7 @@
                     <form @submit.prevent="sendPin">
                         <v-text-field
                             v-model="data.pin"
+                            :error-messages="errors.pin"
                             counter
                             maxlength="6"
                             label="Pin"
@@ -35,7 +36,10 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 
 export default {
 
-    props: ['userdata'],
+    props:  {
+        userdata: Object,
+        errors: Object,
+    },
 
     components: {
         GuestLayout,
@@ -52,7 +56,6 @@ export default {
 
     methods: {
         sendPin() {
-
             this.$inertia.post(this.route('ausweisslogin.checkpin'), this.data);
         },
 

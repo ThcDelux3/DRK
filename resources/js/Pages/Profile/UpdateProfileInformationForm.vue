@@ -1,11 +1,11 @@
 <template>
     <app-form-section @submitted="updateProfileInformation">
         <template #title>
-            Profile Information
+            Profil Information
         </template>
 
         <template #description>
-            Update your account's profile information and email address.
+            Aktualisieren Sie die Profilinformationen und die E-Mail-Adresse Ihres Kontos.
         </template>
 
         <template #form>
@@ -24,10 +24,10 @@
                 </v-avatar>
 
                 <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
-                    Select A New Photo
+                    Wählen Sie ein neues Foto
                 </v-btn>
                 <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="user.profile_photo_path">
-                    Remove Photo
+                    Foto entfernen
                 </v-btn>
 
             </div>

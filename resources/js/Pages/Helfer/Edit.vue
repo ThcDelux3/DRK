@@ -17,6 +17,28 @@
 
                     <v-card-text>
 
+                        <!-- Profile Photo -->
+                        <div class="mb-4" v-if="$page.props.jetstream.managesProfilePhotos">
+                            <!-- Profile Photo File Input -->
+                            <input type="file" style="display: none;"
+                                   ref="photo"
+                                   @change="updatePhotoPreview">
+
+                            <!-- New Profile Photo Preview -->
+                            <v-avatar size="80">
+                                <img :src="photoPreview" v-if="photoPreview">
+                                <img :src="form.img" :alt="form.name" v-else>
+
+                            </v-avatar>
+
+                            <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
+                                Wählen Sie ein neues Foto                            </v-btn>
+                            <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.img">
+                                Foto entfernen
+                            </v-btn>
+
+                        </div>
+
                         <v-row>
                             <v-col>
                                 <v-text-field
@@ -104,6 +126,17 @@
                                     :error-messages="errors.organisation"
                                 ></v-text-field>
                             </v-col>
+                            <v-col>
+                                <v-text-field
+                                    v-model="form.password"
+                                    hide-details="auto"
+                                    label="Neues Passwort"
+                                    outlined
+                                    required
+                                    type="text"
+                                    :error-messages="errors.password"
+                                ></v-text-field>
+                            </v-col>
                         </v-row>
 
                     </v-card-text>
@@ -135,24 +168,25 @@ export default {
 
     props: {
         errors: Object,
-        user: Object,
+        helfer: Object,
     },
 
     data() {
         return {
+            photoPreview: null,
             sending: false,
             items_qualifikation: ['EH', 'SanC', 'RH', 'RS', 'RA', 'NFS', 'Arzt', 'NA'],
             items_qualifikation_value : ['EH', 'SanC', 'RH', 'RS', 'RA', 'NFS', 'Arzt', 'NA'],
 
             form: {
-                vorname: this.user.vorname,
-                nachname: this.user.nachname,
-                email: this.user.email,
-                password: this.user.password,
-                organisation: this.user.organisation,
-                geburtsdatum: this.user.geburtsdatum,
-                personalnummer: this.user.personalnummer,
-                qualifikation: this.user.qualifikation,
+                vorname: this.helfer.vorname,
+                nachname: this.helfer.nachname,
+                email: this.helfer.email,
+                password: this.helfer.password,
+                organisation: this.helfer.organisation,
+                geburtsdatum: this.helfer.geburtsdatum,
+                personalnummer: this.helfer.personalnummer,
+                qualifikation: this.helfer.qualifikation,
             },
         }
     },
@@ -160,7 +194,7 @@ export default {
     methods: {
 
         submit() {
-            this.$inertia.put(this.route('helfer.update', this.user.id), this.form, {
+            this.$inertia.put(this.route('helfer.update', this.helfer.id), this.form, {
                 onStart: () => this.sending = true,
                 onFinish: () => this.sending = false,
             })
@@ -168,8 +202,30 @@ export default {
 
         destroy() {
             if (confirm('Möchten Sie diesen Benutzer wirklich löschen?')) {
-                this.$inertia.delete(this.route('helfer.destroy', this.user.id))
+                this.$inertia.delete(this.route('helfer.destroy', this.helfer.id))
             }
+        },
+
+        selectNewPhoto() {
+            this.$refs.photo.click();
+        },
+
+
+        updatePhotoPreview(e) {
+
+            this.form.img = e.target.files[0]
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                this.photoPreview = e.target.result;
+            };
+
+            reader.readAsDataURL(this.$refs.photo.files[0]);
+        },
+
+        deletePhoto() {
+            // ToDo Funktion erstellen
         },
 
     },

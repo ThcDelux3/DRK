@@ -79,17 +79,15 @@
                                         type="number"
                                     ></v-text-field>
                                 </v-col>
-
                                 <v-col>
-                                    <v-text-field
-                                        v-model="form.schrank"
-                                        :error-messages="errors.schrank"
-                                        hide-details="auto"
-                                        label="Schrank"
+                                    <v-autocomplete
+                                        v-model="form.lagerort"
+                                        :error-messages="errors.lagerort"
+                                        :items="items_lagerort"
+                                        label="Lagerort"
                                         outlined
-                                        required
-                                        type="text"
-                                    ></v-text-field>
+                                        hide-details="auto"
+                                    ></v-autocomplete>
                                 </v-col>
                             </v-row>
 
@@ -100,9 +98,6 @@
                             <v-btn text type="submit">Artikel Erstellen</v-btn>
                         </v-card-actions>
                     </v-card>
-
-
-
 
                 </form>
 
@@ -131,11 +126,13 @@ export default {
 
             photoPreview: null,
 
+            items_lagerort: ['Schrank Atmung', 'Schrank Verbände', 'Schrank Kreislauf'],
+
             form: this.$inertia.form({
                 name: '',
                 ablaufdatum: '',
                 anzahl: '',
-                schrank: '',
+                lagerort: '',
                 img: null,
                 photo: null,
             }),

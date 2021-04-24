@@ -1,17 +1,17 @@
 <template>
     <app-form-section @submitted="updatePassword">
         <template #title>
-            Update Password
+            Kennwort aktualisieren
         </template>
 
         <template #description>
-            Ensure your account is using a long, random password to stay secure.
+            Stellen Sie sicher, dass Ihr Konto ein langes, zufälliges Passwort verwendet, um die Sicherheit zu gewährleisten.
         </template>
 
         <template #form>
 
             <v-text-field
-                label="Current Password"
+                label="Aktuelles Passwort"
                 outlined autocomplete="current-password"
                  v-model="form.current_password"
                 :error-messages="form.errors.current_password"
@@ -19,7 +19,7 @@
                 :type="showCP ? 'text' : 'password'"
                 @click:append="showCP = !showCP"></v-text-field>
 
-            <v-text-field outlined label="Password" required
+            <v-text-field outlined label="Neues Kennwort" required
                 autocomplete="new-password"
                 v-model="form.password"
                 :error-messages="form.errors.password"
@@ -28,7 +28,7 @@
                 hint="At least 8 characters"
                 @click:append="showP = !showP"></v-text-field>
 
-            <v-text-field outlined label="Confirm Password" required
+            <v-text-field outlined label="Neues Kennwort bestätigen" required
                 autocomplete="new-password"
                 v-model="form.password_confirmation"
                 :error-messages="form.errors.password_confirmation"
@@ -39,10 +39,10 @@
         </template>
 
         <template #actions>
-            <transition 
-                
-                leave-active-class="transition ease-in duration-1000" 
-                leave-class="opacity-100" 
+            <transition
+
+                leave-active-class="transition ease-in duration-1000"
+                leave-class="opacity-100"
                 leave-to-class="opacity-0">
                 <div v-show="form.recentlySuccessful" class="text-sm text-gray-600">
                     Saved.

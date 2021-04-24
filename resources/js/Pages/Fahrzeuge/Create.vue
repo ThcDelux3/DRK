@@ -126,7 +126,7 @@ export default {
 
             photoPreview: null,
 
-            form:  this.$inertia.form({
+            form: this.$inertia.form({
                 funkrufnamen: '',
                 kennzeichen: '',
                 fahrzeugart: '',

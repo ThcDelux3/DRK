@@ -17,7 +17,7 @@ class ProtokolleController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Protokolle/Einsatzprotokoll', ['users' => User::all()]);
+        return Inertia::render('Protokolle/Einsatzprotokoll_org', ['users' => User::all()]);
     }
 
     /**
@@ -343,13 +343,13 @@ class ProtokolleController extends Controller
                         $pdf->SetFont('Arial','B',12);
                         $pdf->text(69.2,98,'X');
                         $pdf->SetFont('DejaVuSansCondensed','',12);
-                        $pdf->text(85,97,'Grund');
+                        $pdf->text(85,97, $einsatz_einsatzart_textfield_sonstige);
                     }
 
                     //Einsatzauftrag
                     if ($einsatz_textfield_einsatzauftrag) {
                         $pdf->SetFont('DejaVuSansCondensed','',12);
-                        $pdf->text(72,113,$einsatz_einsatzart_textfield_sonstige);
+                        $pdf->text(72,113,$einsatz_textfield_einsatzauftrag);
 
                     }
 
@@ -406,17 +406,20 @@ class ProtokolleController extends Controller
                     //
                     //Weitere Materialien
                     //
-                    $pdf->text(21,176,$weitere_materialien_textfield);
+                    $pdf->SetXY(21,171);
+                    $pdf->MultiCell(170, 4.5, $weitere_materialien_textfield);
 
                     //
                     //Kurzbericht
                     //
-                    $pdf->text(21,195,$kurzbericht_textfield);
+                    $pdf->SetXY(21,191);
+                    $pdf->MultiCell(170, 4.5, $kurzbericht_textfield);
 
                     //
                     //Sonstige Hinweise / Bemerkungen / Ereignisse
                     //
-                    $pdf->text(21,262,$sonstige_hinweise_bemerkungen_ereignisse_textfield);
+                    $pdf->SetXY(21,258);
+                    $pdf->MultiCell(170, 4.5, $sonstige_hinweise_bemerkungen_ereignisse_textfield);
 
                     break;
                 //Add changes to page 2

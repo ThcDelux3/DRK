@@ -26,13 +26,13 @@
                             <!-- New Profile Photo Preview -->
                             <v-avatar size="80">
                                 <img :src="photoPreview" v-if="photoPreview">
-                                <img :src="form.img" :alt="form.name" v-else>
+                                <img :src="form.img_path" :alt="form.name" v-else>
 
                             </v-avatar>
 
                             <v-btn class="ml-3 mt-2 mr-2" outlined color="info" @click.native.prevent="selectNewPhoto">
                                 Wählen Sie ein neues Foto                            </v-btn>
-                            <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.img">
+                            <v-btn class="mt-2" outlined color="info" @click.native.prevent="deletePhoto" v-if="form.img_path">
                                 Foto entfernen
                             </v-btn>
 
@@ -74,18 +74,45 @@
                                     outlined
                                     required
                                     type="number"
+                                    min="0"
                                 ></v-text-field>
                             </v-col>
                             <v-col>
                                 <v-text-field
-                                    v-model="form.schrank"
-                                    :error-messages="errors.schrank"
+                                    v-model="form.mindestbestand"
+                                    :error-messages="errors.mindestbestand"
                                     hide-details="auto"
-                                    label="Schrank"
+                                    label="Mindestbestand"
                                     outlined
                                     required
-                                    type="text"
+                                    type="number"
+                                    min="0"
                                 ></v-text-field>
+                            </v-col>
+                        </v-row>
+
+                        <v-row>
+                            <v-col>
+                                <v-autocomplete
+                                    v-model="form.zustand"
+                                    :error-messages="errors.zustand"
+                                    :items="items_zustand"
+                                    label="Zustand"
+                                    outlined
+                                    hide-details="auto"
+                                    clearable
+                                ></v-autocomplete>
+                            </v-col>
+                            <v-col>
+                                <v-autocomplete
+                                    v-model="form.lagerort"
+                                    :error-messages="errors.lagerort"
+                                    :items="items_lagerort"
+                                    label="Lagerort"
+                                    outlined
+                                    hide-details="auto"
+                                    clearable
+                                ></v-autocomplete>
                             </v-col>
                         </v-row>
 
@@ -127,12 +154,18 @@ export default {
             sending: false,
             photoPreview: null,
 
+            items_lagerort: ['Schrank Atmung', 'Schrank Verbände', 'Schrank Kreislauf'],
+            items_zustand: ['einsatzbereit', 'kleiner Mangel', 'defekt', 'verschmutzt', 'verliehen', 'zur Prüfung', 'verschwunden', 'archiviert', 'gesperrt',],
+
             form: {
                 name: this.lager.name,
                 ablaufdatum: this.lager.ablaufdatum,
                 anzahl: this.lager.anzahl,
-                schrank: this.lager.schrank,
-                img: this.lager.img,
+                mindestbestand: this.lager.mindestbestand,
+                zustand: this.lager.zustand,
+                lagerort: this.lager.lagerort,
+                img: '',
+                img_path: this.lager.img,
             },
         }
     },

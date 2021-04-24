@@ -47,7 +47,7 @@ class LagerController extends Controller
             'name' => ['required', 'max:50'],
             'ablaufdatum' => ['required', 'max:50',],
             'anzahl' => ['required', 'max:50'],
-            'schrank' => ['required', 'max:50'],
+            'lagerort' => ['required', 'max:50'],
             'photo' => ['required', 'image']
         ]);
 
@@ -63,7 +63,7 @@ class LagerController extends Controller
             'name' => $request['name'],
             'ablaufdatum' => $request['ablaufdatum'],
             'anzahl' => $request['anzahl'],
-            'schrank' => $request['schrank'],
+            'lagerort' => $request['lagerort'],
             'img' => $img_path,
         ]);
 
@@ -85,7 +85,7 @@ class LagerController extends Controller
                 'name' => $lager->name,
                 'ablaufdatum' => $lager->ablaufdatum,
                 'anzahl' => $lager->anzahl,
-                'schrank' => $lager->schrank,
+                'lagerort' => $lager->lagerort,
                 'img' => $lager->img,
             ],
         ]);
@@ -105,11 +105,12 @@ class LagerController extends Controller
             'name' => ['required', 'max:50'],
             'ablaufdatum' => ['required', 'max:50',],
             'anzahl' => ['required', 'max:50'],
-            'schrank' => ['required', 'max:50'],
-            'img' => ['nullable', 'image']
+            'lagerort' => ['required', 'max:50'],
+            'img' => ['nullable', 'image'],
+            'img_path' => ['nullable']
         ]);
 
-        if($request['img']) {
+        if($request['img'] && $request['img'] != null) {
             $logo = $request['img'];
             $img_name = time() . '_'. $logo->getClientOriginalName();
             Storage::disk('public')->put($img_name, File::get($logo));
@@ -131,8 +132,8 @@ class LagerController extends Controller
                 'name' => $request['name'],
                 'ablaufdatum' => $request['ablaufdatum'],
                 'anzahl' => $request['anzahl'],
-                'schrank' => $request['schrank'],
-                'img' => $request->file('img') ? $img_path : null,
+                'lagerort' => $request['lagerort'],
+                'img' => $request->file('img') ? $img_path : $request['img_path'],
             ]);
 
         return Redirect::route('lager')->with('success', 'Artikel erfolgreich aktualisiert.');

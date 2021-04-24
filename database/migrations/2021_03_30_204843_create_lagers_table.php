@@ -18,7 +18,7 @@ class CreateLagersTable extends Migration
             $table->string('name');
             $table->string('ablaufdatum');
             $table->string('anzahl');
-            $table->string('schrank');
+            $table->string('lagerort');
             $table->text('img')->nullable();
             $table->timestamps();
         });
