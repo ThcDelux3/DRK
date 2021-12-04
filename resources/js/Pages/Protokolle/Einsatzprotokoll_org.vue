@@ -3133,7 +3133,7 @@ export default {
                 helfer_10_name_vorname: '',
                 helfer_10_von_time: null,
                 helfer_10_bis_time: null,
-                helfer_10_dropdownx_ov_kz: '',
+                helfer_10_dropdown_ov_kz: '',
                 helfer_10_checkbox_qualifikation: '',
 
                 helfer_11_name_vorname: '',
